@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} — FOODCORE{% endblock %}
+{% block content %}
+<article class="max-w-3xl mx-auto px-4 py-8">
+    <nav class="text-xs text-gray-400 mb-6">
+        <a href="{% url 'core:home' %}" class="hover:text-orange-500">Главная</a> /
+        <a href="{% url 'blog:article_list' %}" class="hover:text-orange-500">Рецепты</a> /
+        <span class="text-gray-600">{{ article.title }}</span>
+    </nav>
+    <span class="text-xs text-orange-500">{{ article.get_category_display }}</span>
+    <h1 class="text-2xl font-bold mt-1 mb-4">{{ article.title }}</h1>
+    {% if article.image %}<div class="aspect-video bg-gray-100 rounded-lg mb-6"></div>{% endif %}
+    <div class="prose text-gray-700">{{ article.content|linebreaksbr }}</div>
+    <div class="mt-8"><a href="{% url 'blog:article_list' %}" class="text-orange-500 text-sm hover:underline">&larr; Ко всем статьям</a></div>
+</article>
+{% endblock %}

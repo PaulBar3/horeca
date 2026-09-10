@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} — FOODCORE{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <nav class="text-xs text-gray-400 mb-6">
+        <a href="{% url 'core:home' %}" class="hover:text-orange-500">Главная</a> /
+        <a href="{% url 'catalog:product_list' %}" class="hover:text-orange-500">Каталог</a> /
+        <a href="{% url 'catalog:product_list' %}?category={{ product.category.slug }}" class="hover:text-orange-500">{{ product.category }}</a> /
+        <span class="text-gray-600">{{ product.name }}</span>
+    </nav>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="aspect-square bg-gray-100 rounded-lg"></div>
+        <div>
+            <h1 class="text-2xl font-bold mb-2">{{ product.name }}</h1>
+            {% if product.article %}<p class="text-sm text-gray-400 mb-3">Артикул: {{ product.article }}</p>{% endif %}
+            <p class="text-gray-600 mb-4">{{ product.description }}</p>
+
+            <form hx-post="{% url 'orders:cart_add' %}" hx-target="#cart-count" hx-swap="innerHTML" class="mb-6">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+
+                {% if product.packagings.all %}
+                <label class="block text-sm font-medium mb-1">Фасовка</label>
+                <select name="packaging_id" class="w-full border rounded px-3 py-2 mb-4 text-sm">
+                    {% for pkg in product.packagings.all %}<option value="{{ pkg.id }}">{{ pkg.weight_kg }} кг</option>{% endfor %}
+                </select>
+                {% endif %}
+
+                <div class="flex items-center gap-3">
+                    <input name="quantity" type="number" value="1" min="1" class="w-20 border rounded px-3 py-2 text-center text-sm">
+                    <button type="submit" class="flex-1 bg-orange-500 text-white py-2 rounded font-medium hover:bg-orange-600">В корзину</button>
+                </div>
+            </form>
+
+            <div class="border rounded p-4 text-sm space-y-2">
+                {% if product.calories %}<div class="flex justify-between"><span class="text-gray-500">Калорийность</span><span>{{ product.calories }} ккал/100г</span></div>{% endif %}
+                {% if product.protein %}<div class="flex justify-between"><span class="text-gray-500">Белки</span><span>{{ product.protein }} г</span></div>{% endif %}
+                {% if product.fat %}<div class="flex justify-between"><span class="text-gray-500">Жиры</span><span>{{ product.fat }} г</span></div>{% endif %}
+                {% if product.carbs %}<div class="flex justify-between"><span class="text-gray-500">Углеводы</span><span>{{ product.carbs }} г</span></div>{% endif %}
+                {% if product.shelf_life %}<div class="flex justify-between"><span class="text-gray-500">Срок годности</span><span>{{ product.shelf_life }}</span></div>{% endif %}
+                {% if product.storage_conditions %}<div class="flex justify-between"><span class="text-gray-500">Хранение</span><span>{{ product.storage_conditions }}</span></div>{% endif %}
+            </div>
+
+            {% if product.composition %}
+            <div class="mt-4"><p class="text-sm text-gray-500"><span class="font-medium">Состав:</span> {{ product.composition }}</p></div>
+            {% endif %}
+
+            {% for ttk in product.ttk_files.all %}
+            <a href="{{ ttk.pdf.url }}" class="inline-block mt-3 text-orange-500 text-sm hover:underline" download>📄 {{ ttk.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if related_products %}
+    <section class="mt-12">
+        <h2 class="text-lg font-bold mb-4">С этим часто заказывают</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for p in related_products %}
+            {% with product=p show_badge=False show_description=False %}
+            {% include "catalog/_product_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

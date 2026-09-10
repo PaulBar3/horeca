@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}FOODCORE — Основа вашего меню{% endblock %}
+{% block content %}
+
+<section class="bg-gray-900 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4">
+        <h1 class="text-4xl font-bold mb-4">Ваша основа для <span class="text-orange-500">шедевра</span></h1>
+        <p class="text-gray-300 mb-6 max-w-xl">Полуфабрикаты для профессиональной кухни. Стабильный вес, экономия времени, гарантия качества.</p>
+        <div class="flex gap-4">
+            <a href="{% url 'catalog:product_list' %}" class="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded font-medium">В каталог</a>
+            <a href="{% url 'core:b2b' %}" class="border border-white/30 px-6 py-2 rounded hover:bg-white/10">Для профессионалов</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">⚖️</div>
+                <h3 class="font-medium text-sm">Стабильный вес</h3>
+                <p class="text-xs text-gray-500">Точный калибр порции</p>
+            </div>
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">⏱️</div>
+                <h3 class="font-medium text-sm">Экономия времени</h3>
+                <p class="text-xs text-gray-500">Готово к использованию</p>
+            </div>
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🛡️</div>
+                <h3 class="font-medium text-sm">Гарантия качества</h3>
+                <p class="text-xs text-gray-500">HACCP, ISO 22000</p>
+            </div>
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🏭</div>
+                <h3 class="font-medium text-sm">Собственное сырьё</h3>
+                <p class="text-xs text-gray-500">Контроль этапов</p>
+            </div>
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🚚</div>
+                <h3 class="font-medium text-sm">Логистика 24/7</h3>
+                <p class="text-xs text-gray-500">Доставка вовремя</p>
+            </div>
+            <div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">👨‍🍳</div>
+                <h3 class="font-medium text-sm">Для HoReCa</h3>
+                <p class="text-xs text-gray-500">Специальные условия</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if featured_products %}
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Рекомендуем</h2>
+            <a href="{% url 'catalog:product_list' %}" class="text-orange-500 text-sm hover:underline">Все продукты &rarr;</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {% for p in featured_products %}
+            {% with product=p show_badge=False show_description=False %}
+            {% include "catalog/_product_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if new_products %}
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-6">Новинки</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {% for p in new_products %}
+            {% with product=p show_badge=True show_description=False %}
+            {% include "catalog/_product_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if reviews %}
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-6">Отзывы шеф-поваров</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for r in reviews %}
+            <div class="border rounded-lg p-5">
+                <p class="text-sm text-gray-600 mb-4">«{{ r.text }}»</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                    <div>
+                        <p class="font-medium text-sm">{{ r.author_name }}</p>
+                        <p class="text-xs text-gray-400">{{ r.author_position }}{% if r.author_company %}, {{ r.author_company }}{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if articles %}
+<section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Рецепты и новости</h2>
+            <a href="{% url 'blog:article_list' %}" class="text-orange-500 text-sm hover:underline">Все статьи &rarr;</a>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for a in articles %}
+            {% with article=a show_excerpt=False %}
+            {% include "blog/_article_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="py-12 bg-orange-500 text-white text-center">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-3">Стать партнёром</h2>
+        <p class="mb-4 text-white/90">Получите пробную партию и оцените качество</p>
+        <a href="{% url 'core:b2b' %}" class="inline-block bg-white text-orange-500 px-6 py-2 rounded font-medium hover:bg-gray-100">Запросить</a>
+    </div>
+</section>
+
+{% endblock %}

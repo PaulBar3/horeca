@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /orders/
+
+Sitemap: https://foodcore.by/sitemap.xml

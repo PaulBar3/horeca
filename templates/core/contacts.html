@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Контакты — FOODCORE{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Контакты</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h2 class="font-bold mb-4">Свяжитесь с нами</h2>
+            <div class="space-y-3 text-sm">
+                <p>📞 +375 (29) 123-45-67</p>
+                <p>📧 info@foodcore.by</p>
+                <p>📍 г. Минск, ул. Промышленная, 1</p>
+                <p>🕐 Пн-Пт: 8:00-18:00, Сб: 9:00-15:00</p>
+            </div>
+            <div class="mt-6 p-4 bg-gray-50 rounded text-xs text-gray-500">
+                <p>УНП: 123456789</p>
+                <p>Р/с BY1234567890123456789012</p>
+                <p>Белгазпромбанк, БИК: BELBY2X</p>
+            </div>
+        </div>
+        <div>
+            <h2 class="font-bold mb-4">Напишите нам</h2>
+            <form method="post" class="space-y-3">
+                {% csrf_token %}
+                <input name="contact_name" required placeholder="ФИО *" class="w-full border rounded px-3 py-2 text-sm">
+                <input name="email" required placeholder="Email *" class="w-full border rounded px-3 py-2 text-sm">
+                <input name="phone" placeholder="Телефон" class="w-full border rounded px-3 py-2 text-sm">
+                <textarea name="message" rows="3" required placeholder="Сообщение *" class="w-full border rounded px-3 py-2 text-sm"></textarea>
+                <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded font-medium hover:bg-orange-600">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Рецепты — FOODCORE{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6">Рецепты и новости</h1>
+    <div class="flex gap-2 mb-6">
+        <a href="{% url 'blog:article_list' %}" class="px-3 py-1 rounded-full text-sm {% if not request.GET.category %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Все</a>
+        <a href="{% url 'blog:article_list' %}?category=recipe" class="px-3 py-1 rounded-full text-sm {% if request.GET.category == 'recipe' %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Рецепты</a>
+        <a href="{% url 'blog:article_list' %}?category=news" class="px-3 py-1 rounded-full text-sm {% if request.GET.category == 'news' %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Новости</a>
+    </div>
+    {% if articles %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for a in articles %}
+        {% with article=a show_excerpt=True %}
+        {% include "blog/_article_card.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% if is_paginated %}
+    <div class="mt-6 flex justify-center gap-2">
+        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-1 border rounded text-sm">&laquo;</a>{% endif %}
+        <span class="px-3 py-1 bg-orange-500 text-white rounded text-sm">{{ page_obj.number }}</span>
+        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}" class="px-3 py-1 border rounded text-sm">&raquo;</a>{% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <p class="text-gray-400 text-center py-12">Статей пока нет</p>
+    {% endif %}
+</div>
+{% endblock %}
