@@ -35,6 +35,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "config.middleware.RateLimitMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -86,5 +87,21 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Session
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 1 week
+SESSION_COOKIE_SAMESITE = "Lax"
+
+# Frame protection
+X_FRAME_OPTIONS = "DENY"
+
 # Cart session key
 CART_SESSION_KEY = "foodcore_cart"
+
+# Rate limits: {path_prefix: (max_requests, window_seconds)}
+RATE_LIMITS = {
+    "/orders/create/": (5, 60),
+    "/contacts/": (3, 60),
+    "/b2b/": (3, 60),
+    "/orders/add/": (30, 60),
+    "/orders/": (60, 60),
+}

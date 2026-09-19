@@ -26,7 +26,7 @@ def home(request):
 
 def contacts(request):
     if request.method == "POST":
-        logger.info("Contact form: %s", request.POST.dict())
+        logger.info("Contact form submitted from %s", request.META.get("REMOTE_ADDR"))
         messages.success(
             request,
             "Сообщение отправлено. Мы ответим вам в ближайшее время.",
@@ -36,7 +36,7 @@ def contacts(request):
 
 def trial_request(request):
     if request.method == "POST":
-        logger.info("Trial request: %s", request.POST.dict())
+        logger.info("Trial request submitted from %s", request.META.get("REMOTE_ADDR"))
         messages.success(
             request,
             "Ваш запрос отправлен. Мы свяжемся с вами в ближайшее время.",

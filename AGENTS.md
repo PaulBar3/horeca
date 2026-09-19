@@ -56,7 +56,7 @@ tests/           # pytest тесты (catalog/, orders/, blog/)
 
 - `about`, `b2b` — `TemplateView.as_view()` прямо в urls.py
 - `contacts`, `trial_request` — FBV (обрабатывают POST)
-- `home`, `product_list`, `product_detail`, `cart_view` — FBV
+- `home`, `product_list`, `product_detail`, `cart_view` — FBVщopen
 
 ## Forms
 

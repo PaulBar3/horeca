@@ -34,7 +34,7 @@ def _parse_int(value, default=0):
 
 
 def _parse_quantity(value, default=1):
-    return max(1, _parse_int(value, default))
+    return max(1, min(9999, _parse_int(value, default)))
 
 
 def _resolve_cart_items(cart_data):
@@ -65,6 +65,9 @@ def cart_view(request):
     return render(request, "orders/cart.html", {"cart_items": items})
 
 
+CART_MAX_QUANTITY = 9999
+
+
 @require_POST
 def cart_add(request):
     product_id = request.POST.get("product_id")
@@ -74,7 +77,8 @@ def cart_add(request):
     cart_data = _get_cart(request.session)
 
     if product_id in cart_data:
-        cart_data[product_id]["quantity"] += quantity
+        new_qty = cart_data[product_id]["quantity"] + quantity
+        cart_data[product_id]["quantity"] = min(new_qty, CART_MAX_QUANTITY)
     else:
         cart_data[product_id] = {
             "packaging_id": packaging_id,
@@ -100,11 +104,12 @@ def cart_update(request, product_id):
     if key not in cart_data:
         return HttpResponse(status=404)
 
-    cart_data[key]["quantity"] += delta
-    if cart_data[key]["quantity"] <= 0:
+    new_qty = cart_data[key]["quantity"] + delta
+    if new_qty <= 0:
         del cart_data[key]
         html = ""
     else:
+        cart_data[key]["quantity"] = min(new_qty, CART_MAX_QUANTITY)
         html = str(cart_data[key]["quantity"])
 
     _save_cart(request.session, cart_data)
@@ -171,8 +176,8 @@ def order_create(request):
     _save_cart(request.session, {})
 
     logger.info(
-        "New order #%d from %s (%s)",
-        order.pk, order.contact_name, order.company,
+        "New order #%d created",
+        order.pk,
     )
 
     return redirect("orders:order_success")

@@ -1,24 +1,42 @@
+# Git
 .git
 .gitignore
-.venv
-.venv/
+
+# Python
 __pycache__
-*.pyc
-*.pyo
-.pytest_cache
-.coverage
-coverage.xml
-htmlcov/
-*.sqlite3
-*.sqlite3-journal
-.opencode
-.opencode/
+*.py[cod]
+*.egg-info
+dist
+build
+.eggs
+
+# Virtual environments
+.venv
+venv
+env
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Django
+db.sqlite3
 media/
 staticfiles/
+
+# Docker
 Dockerfile
-docker-compose.yml
-render.yaml
-README.md
-AGENTS.md
-build.sh
-tests/
+docker-compose*.yml
+.dockerignore
+
+# Tests
+.pytest_cache
+.coverage
+htmlcov/
+
+# Dev files
+*.log
+.env
+.env.local

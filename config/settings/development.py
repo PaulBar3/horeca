@@ -12,3 +12,6 @@ SECRET_KEY = "django-insecure-dev-only-key-not-for-production"
 
 # Email — log to console
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Dev: relax rate limits
+RATE_LIMITS = {}
