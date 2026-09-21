@@ -14,9 +14,9 @@
                 <p class="text-xs text-gray-400">{{ item.packaging.weight_kg }} кг</p>
             </div>
             <div class="flex items-center gap-2">
-                <button hx-post="{% url 'orders:cart_update' item.product.id %}" hx-vals='{"delta":"-1"}' hx-target="#qty-{{ item.product.id }}" hx-swap="outerHTML" class="w-7 h-7 border rounded text-sm">-</button>
+                <button hx-post="{% url 'orders:cart_decrease' item.product.id %}" hx-target="#cart-item-{{ item.product.id }}" hx-swap="outerHTML" class="w-7 h-7 border rounded text-sm">-</button>
                 <span id="qty-{{ item.product.id }}" class="w-8 text-center text-sm">{{ item.quantity }}</span>
-                <button hx-post="{% url 'orders:cart_update' item.product.id %}" hx-vals='{"delta":"1"}' hx-target="#qty-{{ item.product.id }}" hx-swap="outerHTML" class="w-7 h-7 border rounded text-sm">+</button>
+                <button hx-post="{% url 'orders:cart_increase' item.product.id %}" hx-target="#cart-item-{{ item.product.id }}" hx-swap="outerHTML" class="w-7 h-7 border rounded text-sm">+</button>
             </div>
             <button hx-post="{% url 'orders:cart_remove' item.product.id %}" hx-target="#cart-item-{{ item.product.id }}" hx-swap="outerHTML" class="text-red-400 hover:text-red-600 text-sm">✕</button>
         </div>

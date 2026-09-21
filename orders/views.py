@@ -68,6 +68,12 @@ def cart_view(request):
 CART_MAX_QUANTITY = 9999
 
 
+def _render_cart_item(item):
+    """Render a single cart item row for HTMX swap."""
+    from django.template.loader import render_to_string
+    return render_to_string("orders/_cart_item.html", {"item": item})
+
+
 @require_POST
 def cart_add(request):
     product_id = request.POST.get("product_id")
@@ -96,24 +102,60 @@ def cart_add(request):
 
 
 @require_POST
-def cart_update(request, product_id):
-    delta = _parse_int(request.POST.get("delta", 0))
+def cart_increase(request, product_id):
     cart_data = _get_cart(request.session)
     key = str(product_id)
 
     if key not in cart_data:
         return HttpResponse(status=404)
 
-    new_qty = cart_data[key]["quantity"] + delta
-    if new_qty <= 0:
+    cart_data[key]["quantity"] = min(
+        cart_data[key]["quantity"] + 1, CART_MAX_QUANTITY
+    )
+    _save_cart(request.session, cart_data)
+
+    items = _resolve_cart_items(cart_data)
+    item = next((i for i in items if str(i["product"].pk) == key), None)
+    if not item:
+        return HttpResponse("")
+
+    html = _render_cart_item(item)
+    count = _cart_total(cart_data)
+    return HttpResponse(
+        f'{html}'
+        f'<span id="cart-count" hx-swap-oob="true" class="absolute '
+        f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
+        f'flex items-center justify-center">{count}</span>'
+    )
+
+
+@require_POST
+def cart_decrease(request, product_id):
+    cart_data = _get_cart(request.session)
+    key = str(product_id)
+
+    if key not in cart_data:
+        return HttpResponse(status=404)
+
+    cart_data[key]["quantity"] -= 1
+    if cart_data[key]["quantity"] <= 0:
         del cart_data[key]
-        html = ""
-    else:
-        cart_data[key]["quantity"] = min(new_qty, CART_MAX_QUANTITY)
-        html = str(cart_data[key]["quantity"])
+        _save_cart(request.session, cart_data)
+        count = _cart_total(cart_data)
+        return HttpResponse(
+            f'<span id="cart-count" hx-swap-oob="true" class="absolute '
+            f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
+            f'flex items-center justify-center">{count}</span>'
+        )
 
     _save_cart(request.session, cart_data)
 
+    items = _resolve_cart_items(cart_data)
+    item = next((i for i in items if str(i["product"].pk) == key), None)
+    if not item:
+        return HttpResponse("")
+
+    html = _render_cart_item(item)
     count = _cart_total(cart_data)
     return HttpResponse(
         f'{html}'

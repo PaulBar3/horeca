@@ -2,6 +2,7 @@
 Django settings for FOODCORE project — base configuration.
 """
 
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -50,8 +51,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.csrf",
                 "core.context_processors.site_context",
-
             ],
         },
     },
@@ -73,8 +74,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LANGUAGE_CODE = "ru"
-TIME_ZONE = "Europe/Minsk"
+LANGUAGE_CODE = os.environ.get("DJANGO_LANGUAGE_CODE", "ru")
+TIME_ZONE = os.environ.get("DJANGO_TIME_ZONE", "Europe/Minsk")
 USE_I18N = True
 USE_TZ = True
 

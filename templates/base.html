@@ -78,6 +78,13 @@
                 document.getElementById('mobile-menu').classList.add('hidden');
             });
         });
+        // CSRF token for HTMX POST requests
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.addEventListener('htmx:configRequest', function(evt) {
+                var match = document.cookie.match(/csrftoken=([^;]+)/);
+                if (match) evt.detail.headers['X-CSRFToken'] = match[1];
+            });
+        });
     </script>
 </body>
 </html>

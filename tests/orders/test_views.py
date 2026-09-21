@@ -38,23 +38,33 @@ class TestCart:
         assert response.status_code == 200
         assert str(product.pk) not in client.session.get("foodcore_cart", {})
 
-    def test_update_cart(self, client, product, packaging):
+    def test_increase_cart(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        response = client.post(f"/orders/{product.pk}/increase/")
+        assert response.status_code == 200
+        assert client.session["foodcore_cart"][str(product.pk)]["quantity"] == 3
+
+    def test_decrease_cart(self, client, product, packaging):
         client.post("/orders/add/", {
             "product_id": product.pk,
             "packaging_id": packaging.pk,
             "quantity": 3,
         })
-        response = client.post(f"/orders/{product.pk}/update/", {"delta": -1})
+        response = client.post(f"/orders/{product.pk}/decrease/")
         assert response.status_code == 200
         assert client.session["foodcore_cart"][str(product.pk)]["quantity"] == 2
 
-    def test_update_cart_remove_when_zero(self, client, product, packaging):
+    def test_decrease_cart_remove_when_zero(self, client, product, packaging):
         client.post("/orders/add/", {
             "product_id": product.pk,
             "packaging_id": packaging.pk,
             "quantity": 1,
         })
-        response = client.post(f"/orders/{product.pk}/update/", {"delta": -1})
+        response = client.post(f"/orders/{product.pk}/decrease/")
         assert response.status_code == 200
         assert str(product.pk) not in client.session.get("foodcore_cart", {})
 
