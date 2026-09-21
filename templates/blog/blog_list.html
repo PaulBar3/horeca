@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Блог — FOODCORE{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-8">Блог</h1>
+
+    <section class="mb-12">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Блог</h2>
+        </div>
+        <div class="border rounded-lg p-12 text-center bg-gray-50">
+            <p class="text-gray-400 text-lg">Скоро здесь будут статьи о профессиональной кулинарии</p>
+            <p class="text-gray-400 text-sm mt-2">Следите за обновлениями</p>
+        </div>
+    </section>
+
+    {% if news_articles %}
+    <section>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Новости</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for a in news_articles %}
+            {% with article=a show_excerpt=True %}
+            {% include "blog/_article_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <section>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Новости</h2>
+        </div>
+        <p class="text-gray-400 text-center py-12">Новостей пока нет</p>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

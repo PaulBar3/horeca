@@ -24,6 +24,9 @@ class CategoryAdmin(SlugifyAdminMixin, admin.ModelAdmin):
     list_display = ["name", "slug", "order"]
     search_fields = ["name"]
 
+    class Media:
+        js = ("admin/js/slugify.js",)
+
 
 @admin.register(Product)
 class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
@@ -43,6 +46,9 @@ class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
         from slugify import slugify
         obj.slug = slugify(obj.name)
         super().save_model(request, obj, form, change)
+
+    class Media:
+        js = ("admin/js/slugify.js",)
 
 
 @admin.register(Packaging)

@@ -28,7 +28,7 @@
             .replace(/^-+|-+$/g, '');
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
+    function init() {
         var nameInputs = document.querySelectorAll('#id_name, #id_title');
         var slugInput = document.getElementById('id_slug');
 
@@ -39,5 +39,12 @@
                 slugInput.value = slugify(this.value);
             });
         });
-    });
+    }
+
+    // Try both DOMContentLoaded and immediate init
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 })();

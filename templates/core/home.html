@@ -105,24 +105,6 @@
 </section>
 {% endif %}
 
-{% if articles %}
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Рецепты и новости</h2>
-            <a href="{% url 'blog:article_list' %}" class="text-orange-500 text-sm hover:underline">Все статьи &rarr;</a>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for a in articles %}
-            {% with article=a show_excerpt=False %}
-            {% include "blog/_article_card.html" %}
-            {% endwith %}
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
 <section class="py-12 bg-orange-500 text-white text-center">
     <div class="max-w-7xl mx-auto px-4">
         <h2 class="text-2xl font-bold mb-3">Стать партнёром</h2>

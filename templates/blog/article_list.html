@@ -2,12 +2,7 @@
 {% block title %}Рецепты — FOODCORE{% endblock %}
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Рецепты и новости</h1>
-    <div class="flex gap-2 mb-6">
-        <a href="{% url 'blog:article_list' %}" class="px-3 py-1 rounded-full text-sm {% if not request.GET.category %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Все</a>
-        <a href="{% url 'blog:article_list' %}?category=recipe" class="px-3 py-1 rounded-full text-sm {% if request.GET.category == 'recipe' %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Рецепты</a>
-        <a href="{% url 'blog:article_list' %}?category=news" class="px-3 py-1 rounded-full text-sm {% if request.GET.category == 'news' %}bg-orange-500 text-white{% else %}bg-gray-100{% endif %}">Новости</a>
-    </div>
+    <h1 class="text-2xl font-bold mb-6">Рецепты</h1>
     {% if articles %}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {% for a in articles %}
