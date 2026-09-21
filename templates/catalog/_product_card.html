@@ -12,7 +12,7 @@
         {% endif %}
         <h3 class="font-medium text-sm">{{ product.name }}</h3>
         {% if product.price %}
-        <p class="text-sm font-bold text-orange-500 mt-1">{{ product.price }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" class="h-4 inline-block align-middle"></p>
+        <p class="text-sm font-bold text-orange-500 mt-1">{{ product.price }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" class="h-[1em] inline-block align-middle"></p>
         {% endif %}
         {% if show_description and product.description %}
         <p class="text-xs text-gray-400 mt-1">{{ product.description|truncatewords:10 }}</p>
