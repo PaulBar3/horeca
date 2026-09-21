@@ -46,6 +46,9 @@ class Product(models.Model):
     )
     description = models.TextField("Описание")
     composition = models.TextField("Состав", blank=True)
+    price = models.DecimalField(
+        "Цена (BYN)", max_digits=10, decimal_places=2, null=True, blank=True
+    )
     calories = models.PositiveIntegerField(
         "Калорийность (ккал/100г)", null=True, blank=True
     )

@@ -39,6 +39,11 @@ class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
     inlines = [ProductImageInline, PackagingInline, TTKFileInline]
     list_editable = ["is_featured", "is_new"]
 
+    def save_model(self, request, obj, form, change):
+        from slugify import slugify
+        obj.slug = slugify(obj.name)
+        super().save_model(request, obj, form, change)
+
 
 @admin.register(Packaging)
 class PackagingAdmin(admin.ModelAdmin):
