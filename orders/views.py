@@ -74,6 +74,24 @@ def _render_cart_item(item):
     return render_to_string("orders/_cart_item.html", {"item": item})
 
 
+def _cart_count_html(count):
+    """Render cart count badge for OOB swap."""
+    return (
+        f'<span id="cart-count" hx-swap-oob="true" class="absolute '
+        f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
+        f'flex items-center justify-center">{count}</span>'
+    )
+
+
+def _cart_count_html_add(count):
+    """Render cart count badge for cart_add (innerHTML swap)."""
+    return (
+        f'<span id="cart-count" class="absolute -top-2 -right-3 '
+        f'bg-orange-500 text-xs rounded-full w-5 h-5 flex items-center '
+        f'justify-center">{count}</span>'
+    )
+
+
 @require_POST
 def cart_add(request):
     product_id = request.POST.get("product_id")
@@ -94,11 +112,7 @@ def cart_add(request):
     _save_cart(request.session, cart_data)
 
     count = _cart_total(cart_data)
-    return HttpResponse(
-        f'<span id="cart-count" class="absolute -top-2 -right-3 '
-        f'bg-orange-500 text-xs rounded-full w-5 h-5 flex items-center '
-        f'justify-center">{count}</span>'
-    )
+    return HttpResponse(_cart_count_html_add(count))
 
 
 @require_POST
@@ -121,12 +135,7 @@ def cart_increase(request, product_id):
 
     html = _render_cart_item(item)
     count = _cart_total(cart_data)
-    return HttpResponse(
-        f'{html}'
-        f'<span id="cart-count" hx-swap-oob="true" class="absolute '
-        f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
-        f'flex items-center justify-center">{count}</span>'
-    )
+    return HttpResponse(f'{html}{_cart_count_html(count)}')
 
 
 @require_POST
@@ -142,11 +151,7 @@ def cart_decrease(request, product_id):
         del cart_data[key]
         _save_cart(request.session, cart_data)
         count = _cart_total(cart_data)
-        return HttpResponse(
-            f'<span id="cart-count" hx-swap-oob="true" class="absolute '
-            f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
-            f'flex items-center justify-center">{count}</span>'
-        )
+        return HttpResponse(_cart_count_html(count))
 
     _save_cart(request.session, cart_data)
 
@@ -157,12 +162,7 @@ def cart_decrease(request, product_id):
 
     html = _render_cart_item(item)
     count = _cart_total(cart_data)
-    return HttpResponse(
-        f'{html}'
-        f'<span id="cart-count" hx-swap-oob="true" class="absolute '
-        f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
-        f'flex items-center justify-center">{count}</span>'
-    )
+    return HttpResponse(f'{html}{_cart_count_html(count)}')
 
 
 @require_POST
@@ -177,11 +177,7 @@ def cart_remove(request, product_id):
     _save_cart(request.session, cart_data)
 
     count = _cart_total(cart_data)
-    return HttpResponse(
-        f'<span id="cart-count" hx-swap-oob="true" class="absolute '
-        f'-top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 '
-        f'flex items-center justify-center">{count}</span>'
-    )
+    return HttpResponse(_cart_count_html(count))
 
 
 def cart_count(request):
