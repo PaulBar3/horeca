@@ -1,5 +1,8 @@
+from decimal import Decimal
+
 import pytest
 
+from catalog.models import Packaging, Product
 from orders.models import Order
 
 
@@ -8,6 +11,7 @@ class TestCart:
     def test_empty_cart(self, client):
         response = client.get("/orders/")
         assert response.status_code == 200
+        assert b'id="cart-items"' in response.content
 
     def test_add_to_cart(self, client, product, packaging):
         response = client.post("/orders/add/", {
@@ -67,6 +71,98 @@ class TestCart:
         response = client.post(f"/orders/{product.pk}/decrease/")
         assert response.status_code == 200
         assert str(product.pk) not in client.session.get("foodcore_cart", {})
+
+    def test_add_missing_product_id(self, client):
+        response = client.post("/orders/add/", {})
+        assert response.status_code == 400
+
+    def test_add_unknown_product(self, client):
+        response = client.post("/orders/add/", {"product_id": 999999})
+        assert response.status_code == 400
+        assert not client.session.get("foodcore_cart")
+
+    def test_add_returns_plain_count(self, client, product, packaging):
+        response = client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        assert response.content == b"2"
+
+    def test_readd_updates_packaging(self, client, product, packaging):
+        other = Packaging.objects.create(product=product, weight_kg=5.0)
+        payload = {"product_id": product.pk, "quantity": 1}
+        client.post("/orders/add/", {**payload, "packaging_id": packaging.pk})
+        client.post("/orders/add/", {**payload, "packaging_id": other.pk})
+        item = client.session["foodcore_cart"][str(product.pk)]
+        assert item["packaging_id"] == other.pk
+
+    def test_add_foreign_packaging(self, client, product, category):
+        other_product = Product.objects.create(
+            name="Другой", slug="drugoy", category=category, description="Д"
+        )
+        foreign = Packaging.objects.create(
+            product=other_product, weight_kg=2.0
+        )
+        response = client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": foreign.pk,
+        })
+        assert response.status_code == 400
+
+    def test_cart_page_renders_rows(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        response = client.get("/orders/")
+        assert b"cart-item-" in response.content
+
+    def test_remove_renders_empty_rows(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post(f"/orders/{product.pk}/remove/")
+        assert response.status_code == 200
+        assert b"cart-item-" not in response.content
+        assert b'hx-swap-oob="true"' in response.content
+
+    def test_decrease_zero_renders_empty_rows(
+        self, client, product, packaging
+    ):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post(f"/orders/{product.pk}/decrease/")
+        assert response.status_code == 200
+        assert b"cart-item-" not in response.content
+        assert str(product.pk) not in client.session.get("foodcore_cart", {})
+
+    def test_cart_shows_price(self, client, product, packaging):
+        product.price = Decimal("12.50")
+        product.save()
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        response = client.get("/orders/")
+        assert b"12,50" in response.content
+        assert b"25,00" in response.content
+
+    def test_cart_price_on_request(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        assert "Цена по запросу".encode() in response.content
 
 
 @pytest.mark.django_db

@@ -3,6 +3,7 @@ import logging
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 
 from catalog.models import Packaging, Product
@@ -52,10 +53,13 @@ def _resolve_cart_items(cart_data):
                 )
             except Packaging.DoesNotExist:
                 pass
+        quantity = item_data.get("quantity", 1)
         items.append({
             "product": product,
             "packaging": packaging or product.packagings.first(),
-            "quantity": item_data.get("quantity", 1),
+            "quantity": quantity,
+            "unit_price": product.price,
+            "line_total": product.price * quantity if product.price else None,
         })
     return items
 
@@ -68,10 +72,12 @@ def cart_view(request):
 CART_MAX_QUANTITY = 9999
 
 
-def _render_cart_item(item):
-    """Render a single cart item row for HTMX swap."""
-    from django.template.loader import render_to_string
-    return render_to_string("orders/_cart_item.html", {"item": item})
+def _render_cart_rows(items):
+    """Render all cart item rows for HTMX swap."""
+    return "".join(
+        render_to_string("orders/_cart_item.html", {"item": item})
+        for item in items
+    )
 
 
 def _cart_count_html(count):
@@ -83,36 +89,44 @@ def _cart_count_html(count):
     )
 
 
-def _cart_count_html_add(count):
-    """Render cart count badge for cart_add (innerHTML swap)."""
-    return (
-        f'<span id="cart-count" class="absolute -top-2 -right-3 '
-        f'bg-orange-500 text-xs rounded-full w-5 h-5 flex items-center '
-        f'justify-center">{count}</span>'
+def _cart_rows_response(cart_data):
+    """Full rows list + OOB badge, swaps into #cart-items."""
+    items = _resolve_cart_items(cart_data)
+    return HttpResponse(
+        _render_cart_rows(items) + _cart_count_html(_cart_total(cart_data))
     )
 
 
 @require_POST
 def cart_add(request):
-    product_id = request.POST.get("product_id")
-    packaging_id = request.POST.get("packaging_id")
+    product_id = _parse_int(request.POST.get("product_id"), 0)
+    packaging_id = _parse_int(request.POST.get("packaging_id"), 0) or None
     quantity = _parse_quantity(request.POST.get("quantity", 1))
 
+    if not Product.objects.filter(pk=product_id).exists():
+        return HttpResponse(status=400)
+    if packaging_id and not Packaging.objects.filter(
+        pk=packaging_id, product_id=product_id
+    ).exists():
+        return HttpResponse(status=400)
+
+    key = str(product_id)
     cart_data = _get_cart(request.session)
 
-    if product_id in cart_data:
-        new_qty = cart_data[product_id]["quantity"] + quantity
-        cart_data[product_id]["quantity"] = min(new_qty, CART_MAX_QUANTITY)
+    if key in cart_data:
+        cart_data[key]["quantity"] = min(
+            cart_data[key]["quantity"] + quantity, CART_MAX_QUANTITY
+        )
+        if packaging_id is not None:
+            cart_data[key]["packaging_id"] = packaging_id
     else:
-        cart_data[product_id] = {
+        cart_data[key] = {
             "packaging_id": packaging_id,
             "quantity": quantity,
         }
 
     _save_cart(request.session, cart_data)
-
-    count = _cart_total(cart_data)
-    return HttpResponse(_cart_count_html_add(count))
+    return HttpResponse(str(_cart_total(cart_data)))
 
 
 @require_POST
@@ -127,15 +141,7 @@ def cart_increase(request, product_id):
         cart_data[key]["quantity"] + 1, CART_MAX_QUANTITY
     )
     _save_cart(request.session, cart_data)
-
-    items = _resolve_cart_items(cart_data)
-    item = next((i for i in items if str(i["product"].pk) == key), None)
-    if not item:
-        return HttpResponse("")
-
-    html = _render_cart_item(item)
-    count = _cart_total(cart_data)
-    return HttpResponse(f'{html}{_cart_count_html(count)}')
+    return _cart_rows_response(cart_data)
 
 
 @require_POST
@@ -149,20 +155,8 @@ def cart_decrease(request, product_id):
     cart_data[key]["quantity"] -= 1
     if cart_data[key]["quantity"] <= 0:
         del cart_data[key]
-        _save_cart(request.session, cart_data)
-        count = _cart_total(cart_data)
-        return HttpResponse(_cart_count_html(count))
-
     _save_cart(request.session, cart_data)
-
-    items = _resolve_cart_items(cart_data)
-    item = next((i for i in items if str(i["product"].pk) == key), None)
-    if not item:
-        return HttpResponse("")
-
-    html = _render_cart_item(item)
-    count = _cart_total(cart_data)
-    return HttpResponse(f'{html}{_cart_count_html(count)}')
+    return _cart_rows_response(cart_data)
 
 
 @require_POST
@@ -175,9 +169,7 @@ def cart_remove(request, product_id):
 
     del cart_data[key]
     _save_cart(request.session, cart_data)
-
-    count = _cart_total(cart_data)
-    return HttpResponse(_cart_count_html(count))
+    return _cart_rows_response(cart_data)
 
 
 def cart_count(request):

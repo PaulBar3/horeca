@@ -15,7 +15,7 @@ uv run python manage.py runserver    # запуск сервера
 uv run python manage.py createsuperuser  # создать админа
 uv run python manage.py makemigrations  # миграции
 uv run python manage.py migrate
-uv run pytest -v                     # тесты (25 шт.)
+uv run pytest -v                     # тесты (38 шт.)
 uv run pylint --load-plugins pylint_django --django-settings-module=config.settings.development core catalog orders blog --disable=C0114,C0115,C0116,R0903,W0212,C0103,C0301,R0801  # линтер (10/10)
 ```
 
@@ -42,9 +42,10 @@ tests/           # pytest тесты (catalog/, orders/, blog/)
 
 - Сессия, ключ из `settings.CART_SESSION_KEY` (`foodcore_cart`)
 - Формат: `{product_id: {packaging_id, quantity}}`
-- HTMX POST/DELETE для add/update/remove, JSON-ответы
-- Валидация: `_parse_quantity()` для safe int conversion
-- Хелперы: `_resolve_cart_items()`, `_cart_total()`
+- HTMX POST для add/increase/decrease/remove; ответ — HTML-строки корзины + OOB-бейдж счётчика (свап в `#cart-items`)
+- Валидация: `_parse_int()`/`_parse_quantity()`; `cart_add` → 400 при неверном `product_id`/`packaging_id`
+- Хелперы: `_resolve_cart_items()`, `_cart_total()`, `_render_cart_rows()`, `_cart_rows_response()`
+- Пустая корзина/форма — CSS (`#cart-items:empty`), форма в DOM всегда и не перерисовывается
 
 ## Админка
 
@@ -73,7 +74,7 @@ tests/           # pytest тесты (catalog/, orders/, blog/)
 ## Тесты
 
 - Фикстуры в `tests/conftest.py` (client, category, product, packaging, article)
-- 25 тестов: catalog (8), orders (6), blog (5)
+- 38 тестов: catalog (14), orders (17), blog (7)
 
 ## Запуск
 
