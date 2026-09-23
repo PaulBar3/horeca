@@ -164,6 +164,48 @@ class TestCart:
         response = client.get("/orders/")
         assert "Цена по запросу".encode() in response.content
 
+    def test_cart_sum_shown(self, client, product, packaging):
+        product.price = Decimal("12.50")
+        product.save()
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        response = client.get("/orders/")
+        i = response.content.find(b'id="cart-sum"')
+        assert i != -1
+        block = response.content[i:i + 500]
+        assert "Итого".encode() in block
+        assert b"25,00" in block
+
+    def test_cart_sum_on_request(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        i = response.content.find(b'id="cart-sum"')
+        assert i != -1
+        block = response.content[i:i + 500]
+        assert "Цена по запросу".encode() in block
+
+    def test_cart_sum_oob_on_change(self, client, product, packaging):
+        product.price = Decimal("10.00")
+        product.save()
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post(f"/orders/{product.pk}/increase/")
+        i = response.content.find(b'id="cart-sum"')
+        assert i != -1
+        block = response.content[i:i + 300]
+        assert b'hx-swap-oob="true"' in block
+        assert b"20,00" in block
+
 
 @pytest.mark.django_db
 class TestOrder:

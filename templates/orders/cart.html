@@ -4,6 +4,7 @@
 <style>
     .cart-empty { display: none; }
     #cart-items:empty { display: none; }
+    #cart-items:empty ~ .cart-sum { display: none; }
     #cart-items:empty ~ .cart-empty { display: block; }
     #cart-items:empty ~ .cart-form { display: none; }
 </style>
@@ -11,6 +12,8 @@
     <h1 class="text-2xl font-bold mb-6">Корзина заявки</h1>
 
     <div id="cart-items" class="border rounded-lg overflow-hidden mb-6">{% for item in cart_items %}{% include "orders/_cart_item.html" %}{% endfor %}</div>
+
+    {% include "orders/_cart_sum.html" %}
 
     <div class="cart-empty text-center py-12">
         <p class="text-gray-400 mb-4">Корзина пуста</p>

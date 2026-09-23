@@ -64,9 +64,22 @@ def _resolve_cart_items(cart_data):
     return items
 
 
+def _price_totals(items):
+    """Sum of priced positions and flag for priceless ones."""
+    line_totals = [item["line_total"] for item in items if item["line_total"]]
+    cart_sum = sum(line_totals) if line_totals else None
+    has_on_request = any(not item["line_total"] for item in items)
+    return cart_sum, has_on_request
+
+
 def cart_view(request):
     items = _resolve_cart_items(_get_cart(request.session))
-    return render(request, "orders/cart.html", {"cart_items": items})
+    cart_sum, has_on_request = _price_totals(items)
+    return render(request, "orders/cart.html", {
+        "cart_items": items,
+        "cart_sum": cart_sum,
+        "has_on_request": has_on_request,
+    })
 
 
 CART_MAX_QUANTITY = 9999
@@ -90,10 +103,18 @@ def _cart_count_html(count):
 
 
 def _cart_rows_response(cart_data):
-    """Full rows list + OOB badge, swaps into #cart-items."""
+    """Rows + OOB badge + OOB cart sum, swaps into #cart-items."""
     items = _resolve_cart_items(cart_data)
+    cart_sum, has_on_request = _price_totals(items)
+    total_html = render_to_string("orders/_cart_sum.html", {
+        "cart_sum": cart_sum,
+        "has_on_request": has_on_request,
+        "oob": True,
+    })
     return HttpResponse(
-        _render_cart_rows(items) + _cart_count_html(_cart_total(cart_data))
+        _render_cart_rows(items)
+        + _cart_count_html(_cart_total(cart_data))
+        + total_html
     )
 
 
@@ -188,8 +209,11 @@ def order_create(request):
     form = OrderForm(request.POST)
     if not form.is_valid():
         items = _resolve_cart_items(cart_data)
+        cart_sum, has_on_request = _price_totals(items)
         return render(request, "orders/cart.html", {
             "cart_items": items,
+            "cart_sum": cart_sum,
+            "has_on_request": has_on_request,
             "form": form,
         })
 

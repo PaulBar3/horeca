@@ -1,0 +1,14 @@
+{% load static %}
+<div id="cart-sum"{% if oob %} hx-swap-oob="true"{% endif %} class="cart-sum border rounded-lg p-4 mb-6">
+    <div class="flex items-center justify-between">
+        <span class="font-medium text-sm text-gray-500">Итого</span>
+        {% if cart_sum %}
+        <span class="text-lg font-bold text-orange-500">{{ cart_sum }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></span>
+        {% else %}
+        <span class="text-sm text-gray-400">Цена по запросу</span>
+        {% endif %}
+    </div>
+    {% if cart_sum and has_on_request %}
+    <p class="text-xs text-gray-400 mt-1 text-right">+ позиции «цена по запросу»</p>
+    {% endif %}
+</div>
