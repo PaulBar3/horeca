@@ -22,6 +22,16 @@ uv run python manage.py runserver
 uv run pytest -v
 ```
 
+## Данные
+
+Начальные данные проекта (категории, товары, фасовки, статьи, заказы, админы) — в `fixtures/db.json`. Восстановление на пустой БД (после `migrate`) или обновление существующей:
+
+```bash
+uv run python manage.py loaddata fixtures/db.json
+```
+
+Пароли админов переносятся в составе фикстуры (в хэшированном виде). Файлы `media/` (фото, PDF) в фикстуру не входят — только их пути.
+
 ## Деплой
 
 Прод — [Render](https://foodcore.onrender.com), авто-деплой при пуше в `master`:

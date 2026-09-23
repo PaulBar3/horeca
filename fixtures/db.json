@@ -1,0 +1,232 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tkgkL0XL5oxzeJmsYklrQ4$w0tfd1Mv6HPAy6QZKqQYn3w9NABx/+3T5AkOYWXhZdc=",
+    "last_login": "2026-09-10T18:25:13.621Z",
+    "is_superuser": true,
+    "username": "pavel",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-09-10T15:58:34.452Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$Byh3Oh5JsjDM3FjjmhN9mv$I3H5XaFBPtxcxNTARbUFSpfh+n1APCyKBJnlZGcuBuI=",
+    "last_login": "2026-09-20T17:59:44.997Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-09-20T17:59:20.501Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 1,
+  "fields": {
+    "name": "тест",
+    "slug": "test",
+    "description": "",
+    "image": "",
+    "order": 0
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 2,
+  "fields": {
+    "name": "Мясо",
+    "slug": "meat-dbg",
+    "description": "",
+    "image": "",
+    "order": 0
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 1,
+  "fields": {
+    "name": "Название тест",
+    "slug": "nazvanie-test",
+    "article": "",
+    "category": 1,
+    "description": "Описание",
+    "composition": "Состав",
+    "price": "12.50",
+    "calories": null,
+    "protein": "123.00",
+    "fat": "231.00",
+    "carbs": "423.00",
+    "shelf_life": "456",
+    "storage_conditions": "",
+    "meat_type": "",
+    "cooking_method": "frying",
+    "is_featured": false,
+    "is_new": false,
+    "created_at": "2026-09-10T17:31:15.073Z",
+    "updated_at": "2026-09-23T15:32:50.857Z"
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 2,
+  "fields": {
+    "name": "ТестФас",
+    "slug": "testfas",
+    "article": "",
+    "category": 2,
+    "description": "д",
+    "composition": "",
+    "price": "100000.00",
+    "calories": null,
+    "protein": null,
+    "fat": null,
+    "carbs": null,
+    "shelf_life": "",
+    "storage_conditions": "",
+    "meat_type": "",
+    "cooking_method": "",
+    "is_featured": false,
+    "is_new": false,
+    "created_at": "2026-09-23T15:38:23.877Z",
+    "updated_at": "2026-09-23T15:43:25.638Z"
+  }
+},
+{
+  "model": "catalog.packaging",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "weight_kg": "123.00",
+    "description": "",
+    "price_on_request": true
+  }
+},
+{
+  "model": "catalog.packaging",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "weight_kg": "1.00",
+    "description": "горсть",
+    "price_on_request": true
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 1,
+  "fields": {
+    "contact_name": "ФИО",
+    "company": "Комания",
+    "phone": "123123",
+    "email": "mail@example.com",
+    "comment": "",
+    "status": "new",
+    "created_at": "2026-09-22T18:12:48.771Z",
+    "updated_at": "2026-09-22T18:12:48.771Z"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "product": 1,
+    "packaging": 1,
+    "quantity": 1
+  }
+},
+{
+  "model": "blog.article",
+  "pk": 1,
+  "fields": {
+    "title": "Как выбрать куриную грудку для ресторана",
+    "slug": "vybor-kurinoj-grudki",
+    "category": "news",
+    "excerpt": "На что обращать внимание при закупке куриной грудки.",
+    "content": "Подробный гайд по выбору куриной грудки для профессиональной кухни.",
+    "image": "",
+    "is_published": true,
+    "published_at": "2026-09-21T17:04:52.540Z",
+    "created_at": "2026-09-21T17:04:52.541Z",
+    "updated_at": "2026-09-21T17:04:52.541Z"
+  }
+},
+{
+  "model": "blog.article",
+  "pk": 2,
+  "fields": {
+    "title": "Новая линия полуфабрикатов FOODCORE",
+    "slug": "foodcore-novaya-liniya-2",
+    "category": "news",
+    "excerpt": "Новая линия полуфабрикатов.",
+    "content": "Мы запустили новую линию для производства полуфабрикатов.",
+    "image": "",
+    "is_published": true,
+    "published_at": "2026-09-21T17:04:52.553Z",
+    "created_at": "2026-09-21T17:04:52.553Z",
+    "updated_at": "2026-09-21T17:05:06.580Z"
+  }
+},
+{
+  "model": "blog.article",
+  "pk": 3,
+  "fields": {
+    "title": "Рецепт котлет по-киевски",
+    "slug": "kotlety-po-kievski",
+    "category": "recipe",
+    "excerpt": "Классический рецепт.",
+    "content": "Пошаговый рецепт котлет по-киевски из куриной грудки.",
+    "image": "",
+    "is_published": true,
+    "published_at": "2026-09-21T17:04:52.565Z",
+    "created_at": "2026-09-21T17:04:52.566Z",
+    "updated_at": "2026-09-21T17:04:52.566Z"
+  }
+},
+{
+  "model": "blog.article",
+  "pk": 4,
+  "fields": {
+    "title": "Бульон из говядины",
+    "slug": "bulon-iz-govyadiny",
+    "category": "recipe",
+    "excerpt": "Наваристый бульон.",
+    "content": "Как сварить прозрачный и наваристый говяжий бульон.",
+    "image": "",
+    "is_published": true,
+    "published_at": "2026-09-21T17:04:52.580Z",
+    "created_at": "2026-09-21T17:04:52.580Z",
+    "updated_at": "2026-09-21T17:04:52.580Z"
+  }
+},
+{
+  "model": "blog.article",
+  "pk": 5,
+  "fields": {
+    "title": "Заголовок:",
+    "slug": "zagolovok",
+    "category": "news",
+    "excerpt": "Краткое описание:",
+    "content": "Содержание:",
+    "image": "",
+    "is_published": true,
+    "published_at": "2026-09-21T17:45:04Z",
+    "created_at": "2026-09-21T17:45:06.170Z",
+    "updated_at": "2026-09-21T17:45:43.432Z"
+  }
+}
+]
