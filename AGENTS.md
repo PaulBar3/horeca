@@ -15,7 +15,7 @@ uv run python manage.py runserver    # запуск сервера
 uv run python manage.py createsuperuser  # создать админа
 uv run python manage.py makemigrations  # миграции
 uv run python manage.py migrate
-uv run pytest -v                     # тесты (62 шт.)
+uv run pytest -v                     # тесты (65 шт.)
 uv run pylint --load-plugins pylint_django --django-settings-module=config.settings.development core catalog orders blog --disable=C0114,C0115,C0116,R0903,W0212,C0103,C0301,R0801  # линтер (10/10)
 ```
 
@@ -48,6 +48,7 @@ tests/           # pytest тесты (catalog/, orders/, blog/, core/)
 - Хелперы: `_resolve_cart_items()`, `_cart_total()`, `_price_totals()`, `_render_cart_rows()`, `_cart_rows_response()`
 - Итог: `cart_sum` (Decimal|None) + `has_on_request`, партиал `orders/_cart_sum.html` (OOB в HTMX-ответах)
 - Пустая корзина/форма — CSS (`#cart-items:empty`), форма в DOM всегда и не перерисовывается
+- Бейдж `#cart-count` в шапке: рендерится сервером (`cart_count` из `site_context`) + обновляется HTMX (innerHTML с карточки, OOB из мутаций корзины)
 
 ## Админка
 
@@ -78,7 +79,7 @@ tests/           # pytest тесты (catalog/, orders/, blog/, core/)
 ## Тесты
 
 - Фикстуры в `tests/conftest.py` (client, category, product, packaging, article)
-- 62 теста: catalog (23), orders (26), blog (9), core (4)
+- 65 тестов: catalog (23), orders (26), blog (9), core (7)
 
 ## Запуск
 

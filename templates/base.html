@@ -27,7 +27,7 @@
             <div class="flex items-center gap-4">
                 <a href="{% url 'orders:cart' %}" class="hover:text-orange-500 relative p-1">
                     {% include "partials/_icon.html" with name="shopping-cart" class="w-6 h-6" %}
-                    <span id="cart-count" class="absolute -top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    <span id="cart-count" class="absolute -top-2 -right-3 bg-orange-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">{{ cart_count }}</span>
                 </a>
                 <button onclick="toggleMobileMenu()" class="md:hidden leading-none" aria-label="Меню">{% include "partials/_icon.html" with name="bars-3" class="w-6 h-6" %}</button>
             </div>
