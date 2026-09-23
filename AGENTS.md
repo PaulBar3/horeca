@@ -3,10 +3,10 @@
 ## Стек
 
 - Python 3.14, Django 5.2 LTS (5.2.17)
-- uv (пакетный менеджер), pytest + pytest-django + factory-boy
+- uv (пакетный менеджер), pytest + pytest-django
 - python-slugify (транслитерация кириллицы → латиница)
 - Tailwind CSS и HTMX — локально (`static/vendor/tailwindcss.js`, `static/vendor/htmx.min.js`)
-- SQLite (dev), PostgreSQL (prod)
+- SQLite (dev), PostgreSQL (prod); прод на Render — Python 3.12 (`render.yaml`), локально/dev — 3.14
 
 ## Команды
 
