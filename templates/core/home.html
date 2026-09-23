@@ -2,13 +2,15 @@
 {% block title %}FOODCORE — Основа вашего меню{% endblock %}
 {% block content %}
 
-<section class="bg-gray-900 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4">
+<section class="bg-gray-900 text-white py-20 relative overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-orange-500/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute -bottom-40 right-0 w-[28rem] h-[28rem] rounded-full bg-orange-600/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 relative">
         <h1 class="text-4xl font-bold mb-4">Ваша основа для <span class="text-orange-500">шедевра</span></h1>
         <p class="text-gray-300 mb-6 max-w-xl">Полуфабрикаты для профессиональной кухни. Стабильный вес, экономия времени, гарантия качества.</p>
         <div class="flex gap-4">
-            <a href="{% url 'catalog:product_list' %}" class="bg-orange-500 hover:bg-orange-600 px-6 py-2 rounded font-medium">В каталог</a>
-            <a href="{% url 'core:b2b' %}" class="border border-white/30 px-6 py-2 rounded hover:bg-white/10">Для профессионалов</a>
+            <a href="{% url 'catalog:product_list' %}" class="bg-orange-500 hover:bg-orange-600 px-6 py-2 fc-btn rounded font-medium">В каталог</a>
+            <a href="{% url 'core:b2b' %}" class="fc-btn border border-white/30 px-6 py-2 rounded hover:bg-white/10">Для профессионалов</a>
         </div>
     </div>
 </section>
@@ -17,32 +19,32 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">⚖️</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="scale" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Стабильный вес</h3>
                 <p class="text-xs text-gray-500">Точный калибр порции</p>
             </div>
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">⏱️</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="clock" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Экономия времени</h3>
                 <p class="text-xs text-gray-500">Готово к использованию</p>
             </div>
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🛡️</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="shield-check" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Гарантия качества</h3>
                 <p class="text-xs text-gray-500">HACCP, ISO 22000</p>
             </div>
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🏭</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="cog-6-tooth" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Собственное сырьё</h3>
                 <p class="text-xs text-gray-500">Контроль этапов</p>
             </div>
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">🚚</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="truck" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Логистика 24/7</h3>
                 <p class="text-xs text-gray-500">Доставка вовремя</p>
             </div>
             <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">👨‍🍳</div>
+                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="fire" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium text-sm">Для HoReCa</h3>
                 <p class="text-xs text-gray-500">Специальные условия</p>
             </div>
@@ -92,7 +94,7 @@
             <div class="border rounded-lg p-5">
                 <p class="text-sm text-gray-600 mb-4">«{{ r.text }}»</p>
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                    <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold shrink-0">{{ r.author_name|first }}</div>
                     <div>
                         <p class="font-medium text-sm">{{ r.author_name }}</p>
                         <p class="text-xs text-gray-400">{{ r.author_position }}{% if r.author_company %}, {{ r.author_company }}{% endif %}</p>
@@ -109,7 +111,7 @@
     <div class="max-w-7xl mx-auto px-4">
         <h2 class="text-2xl font-bold mb-3">Стать партнёром</h2>
         <p class="mb-4 text-white/90">Получите пробную партию и оцените качество</p>
-        <a href="{% url 'core:b2b' %}" class="inline-block bg-white text-orange-500 px-6 py-2 rounded font-medium hover:bg-gray-100">Запросить</a>
+        <a href="{% url 'core:b2b' %}" class="inline-block bg-white text-orange-500 px-6 py-2 fc-btn rounded font-medium hover:bg-gray-100">Запросить</a>
     </div>
 </section>
 

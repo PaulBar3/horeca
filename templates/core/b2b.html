@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Для профессионалов — FOODCORE{% endblock %}
 {% block content %}
-<section class="bg-orange-500 text-white py-12">
+<section class="bg-gradient-to-r from-orange-500 to-orange-600 text-white py-12">
     <div class="max-w-7xl mx-auto px-4">
         <h1 class="text-3xl font-bold">Для профессионалов</h1>
         <p class="text-white/80 mt-2">Специальные условия для шеф-поваров, технологов и закупщиков HoReCa</p>
@@ -14,32 +14,32 @@
         <h2 class="text-xl font-bold mb-6">Почему работают с нами</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">⚖️</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="scale" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">Стабильность партий</h3>
                 <p class="text-sm text-gray-500">Одинаковое качество и вес в каждой поставке. Без сюрпризов.</p>
             </div>
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">🎯</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="adjustments-vertical" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">Точный калибр</h3>
                 <p class="text-sm text-gray-500">Каждая порция имеет точный вес для расчёта себестоимости блюда.</p>
             </div>
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">🚚</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="truck" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">Гибкая логистика</h3>
                 <p class="text-sm text-gray-500">Доставка в удобное время. Работаем 24/7 для наших партнёров.</p>
             </div>
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">📋</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="clipboard-document-check" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">ТТК и рецепты</h3>
                 <p class="text-sm text-gray-500">Готовые технико-технологические карты для каждого продукта.</p>
             </div>
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">🤝</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="user-group" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">Индивидуальный подход</h3>
                 <p class="text-sm text-gray-500">Готовы разработать продукцию под ваше меню.</p>
             </div>
             <div class="border rounded-lg p-4">
-                <div class="text-2xl mb-2">💰</div>
+                <div class="mb-2">{% include "partials/_icon.html" with name="banknotes" class="w-7 h-7 text-orange-500" %}</div>
                 <h3 class="font-medium mb-1">Выгодные условия</h3>
                 <p class="text-sm text-gray-500">Специальные цены для постоянных клиентов и больших объёмов.</p>
             </div>
@@ -61,10 +61,10 @@
         <h2 class="text-xl font-bold mb-4">Наши партнёры</h2>
         <p class="text-gray-600 mb-4">С нами работают ведущие рестораны, кафе и отели Беларуси</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="aspect-video bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">Ресторан «Вкус»</div>
-            <div class="aspect-video bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">Сеть «Уют»</div>
-            <div class="aspect-video bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">Отель «Премьер»</div>
-            <div class="aspect-video bg-gray-100 rounded flex items-center justify-center text-gray-400 text-xs">Кафе «Свежесть»</div>
+            <div class="aspect-video border rounded-lg bg-gradient-to-b from-white to-gray-50 flex items-center justify-center px-3 text-center"><span class="font-bold text-gray-500 text-sm">Ресторан <span class="text-orange-500">«Вкус»</span></span></div>
+            <div class="aspect-video border rounded-lg bg-gradient-to-b from-white to-gray-50 flex items-center justify-center px-3 text-center"><span class="font-bold text-gray-500 text-sm">Сеть <span class="text-orange-500">«Уют»</span></span></div>
+            <div class="aspect-video border rounded-lg bg-gradient-to-b from-white to-gray-50 flex items-center justify-center px-3 text-center"><span class="font-bold text-gray-500 text-sm">Отель <span class="text-orange-500">«Премьер»</span></span></div>
+            <div class="aspect-video border rounded-lg bg-gradient-to-b from-white to-gray-50 flex items-center justify-center px-3 text-center"><span class="font-bold text-gray-500 text-sm">Кафе <span class="text-orange-500">«Свежесть»</span></span></div>
         </div>
     </div>
 
@@ -73,13 +73,13 @@
         <form method="post" class="space-y-3">
             {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input name="contact_name" required placeholder="ФИО *" class="border rounded px-3 py-2 text-sm">
-                <input name="company" required placeholder="Компания *" class="border rounded px-3 py-2 text-sm">
-                <input name="phone" required placeholder="Телефон *" class="border rounded px-3 py-2 text-sm">
-                <input name="email" required placeholder="Email *" class="border rounded px-3 py-2 text-sm">
+                <input name="contact_name" required placeholder="ФИО *" class="fc-input border rounded px-3 py-2 text-sm">
+                <input name="company" required placeholder="Компания *" class="fc-input border rounded px-3 py-2 text-sm">
+                <input name="phone" required placeholder="Телефон *" class="fc-input border rounded px-3 py-2 text-sm">
+                <input name="email" required placeholder="Email *" class="fc-input border rounded px-3 py-2 text-sm">
             </div>
-            <textarea name="comment" rows="2" placeholder="Комментарий" class="w-full border rounded px-3 py-2 text-sm"></textarea>
-            <button type="submit" class="bg-orange-500 text-white px-6 py-2 rounded font-medium hover:bg-orange-600">Отправить запрос</button>
+            <textarea name="comment" rows="2" placeholder="Комментарий" class="w-full fc-input border rounded px-3 py-2 text-sm"></textarea>
+            <button type="submit" class="bg-orange-500 text-white px-6 py-2 fc-btn rounded font-medium hover:bg-orange-600">Отправить запрос</button>
         </form>
     </div>
 </div>

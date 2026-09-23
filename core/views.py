@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 def home(request):
-    featured_products = Product.objects.filter(is_featured=True)[:4]
-    new_products = Product.objects.filter(is_new=True)[:4]
+    featured_products = Product.objects.filter(is_featured=True).prefetch_related("images")[:4]
+    new_products = Product.objects.filter(is_new=True).prefetch_related("images")[:4]
     reviews = Review.objects.filter(is_active=True)[:3]
 
     return render(request, "core/home.html", {

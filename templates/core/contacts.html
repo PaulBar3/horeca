@@ -7,10 +7,10 @@
         <div>
             <h2 class="font-bold mb-4">Свяжитесь с нами</h2>
             <div class="space-y-3 text-sm">
-                <p>📞 +375 (29) 123-45-67</p>
-                <p>📧 info@foodcore.by</p>
-                <p>📍 г. Минск, ул. Промышленная, 1</p>
-                <p>🕐 Пн-Пт: 8:00-18:00, Сб: 9:00-15:00</p>
+                <p class="flex items-center gap-2">{% include "partials/_icon.html" with name="phone" class="w-4 h-4 text-orange-500 shrink-0" %} +375 (29) 123-45-67</p>
+                <p class="flex items-center gap-2">{% include "partials/_icon.html" with name="envelope" class="w-4 h-4 text-orange-500 shrink-0" %} info@foodcore.by</p>
+                <p class="flex items-center gap-2">{% include "partials/_icon.html" with name="map-pin" class="w-4 h-4 text-orange-500 shrink-0" %} г. Минск, ул. Промышленная, 1</p>
+                <p class="flex items-center gap-2">{% include "partials/_icon.html" with name="clock" class="w-4 h-4 text-orange-500 shrink-0" %} Пн-Пт: 8:00-18:00, Сб: 9:00-15:00</p>
             </div>
             <div class="mt-6 p-4 bg-gray-50 rounded text-xs text-gray-500">
                 <p>УНП: 123456789</p>
@@ -22,11 +22,11 @@
             <h2 class="font-bold mb-4">Напишите нам</h2>
             <form method="post" class="space-y-3">
                 {% csrf_token %}
-                <input name="contact_name" required placeholder="ФИО *" class="w-full border rounded px-3 py-2 text-sm">
-                <input name="email" required placeholder="Email *" class="w-full border rounded px-3 py-2 text-sm">
-                <input name="phone" placeholder="Телефон" class="w-full border rounded px-3 py-2 text-sm">
-                <textarea name="message" rows="3" required placeholder="Сообщение *" class="w-full border rounded px-3 py-2 text-sm"></textarea>
-                <button type="submit" class="w-full bg-orange-500 text-white py-2 rounded font-medium hover:bg-orange-600">Отправить</button>
+                <input name="contact_name" required placeholder="ФИО *" class="w-full fc-input border rounded px-3 py-2 text-sm">
+                <input name="email" required placeholder="Email *" class="w-full fc-input border rounded px-3 py-2 text-sm">
+                <input name="phone" placeholder="Телефон" class="w-full fc-input border rounded px-3 py-2 text-sm">
+                <textarea name="message" rows="3" required placeholder="Сообщение *" class="w-full fc-input border rounded px-3 py-2 text-sm"></textarea>
+                <button type="submit" class="w-full bg-orange-500 text-white py-2 fc-btn rounded font-medium hover:bg-orange-600">Отправить</button>
             </form>
         </div>
     </div>

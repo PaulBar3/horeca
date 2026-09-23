@@ -1,9 +1,11 @@
 {% load static %}
 <div id="cart-item-{{ item.product.id }}" class="flex items-center gap-4 p-4 border-b last:border-0">
-    <div class="w-16 h-16 bg-gray-100 rounded shrink-0"></div>
+    <div class="w-16 h-16 bg-gray-100 rounded shrink-0 overflow-hidden">
+        {% with img=item.product.get_main_image %}{% if img %}<img src="{{ img.image.url }}" alt="" class="w-full h-full object-cover" loading="lazy" onerror="this.remove()">{% endif %}{% endwith %}
+    </div>
     <div class="flex-1 min-w-0">
         <a href="{% url 'catalog:product_detail' item.product.slug %}" class="font-medium text-sm hover:text-orange-500 truncate block">{{ item.product.name }}</a>
-        <p class="text-xs text-gray-400">{{ item.packaging.weight_kg }} кг</p>
+        <p class="text-xs text-gray-400">{{ item.packaging.weight_kg }} кг{% if item.packaging.description %} ({{ item.packaging.description }}){% endif %}</p>
         {% if item.unit_price %}
         <p class="text-sm font-bold text-orange-500">{{ item.unit_price }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></p>
         {% else %}
@@ -11,9 +13,9 @@
         {% endif %}
     </div>
     <div class="flex items-center gap-2">
-        <button hx-post="{% url 'orders:cart_decrease' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="w-7 h-7 border rounded text-sm">-</button>
+        <button hx-post="{% url 'orders:cart_decrease' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="fc-btn w-7 h-7 border rounded text-sm">-</button>
         <span id="qty-{{ item.product.id }}" class="w-8 text-center text-sm">{{ item.quantity }}</span>
-        <button hx-post="{% url 'orders:cart_increase' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="w-7 h-7 border rounded text-sm">+</button>
+        <button hx-post="{% url 'orders:cart_increase' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="fc-btn w-7 h-7 border rounded text-sm">+</button>
     </div>
     <div class="w-24 text-right shrink-0">
         {% if item.line_total %}
@@ -22,5 +24,5 @@
         <p class="text-xs text-gray-400">—</p>
         {% endif %}
     </div>
-    <button hx-post="{% url 'orders:cart_remove' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="text-red-400 hover:text-red-600 text-sm">✕</button>
+    <button hx-post="{% url 'orders:cart_remove' item.product.id %}" hx-target="#cart-items" hx-swap="innerHTML" class="fc-btn text-red-400 hover:text-red-600 text-sm">✕</button>
 </div>

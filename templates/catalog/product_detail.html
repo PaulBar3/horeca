@@ -11,7 +11,19 @@
     </nav>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {% with images=product.images.all %}
+        {% if images %}
+        <div class="{% if images|length > 1 %}grid grid-cols-2 gap-2 self-start{% endif %}">
+            {% for img in images %}
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                <img src="{{ img.image.url }}" alt="{{ img.alt|default:product.name }}" class="w-full h-full object-cover" loading="lazy" onerror="this.remove()">
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
         <div class="aspect-square bg-gray-100 rounded-lg"></div>
+        {% endif %}
+        {% endwith %}
         <div>
             <h1 class="text-2xl font-bold mb-2">{{ product.name }}</h1>
             {% if product.article %}<p class="text-sm text-gray-400 mb-3">Артикул: {{ product.article }}</p>{% endif %}
@@ -26,14 +38,14 @@
 
                 {% if product.packagings.all %}
                 <label class="block text-sm font-medium mb-1">Фасовка</label>
-                <select name="packaging_id" class="w-full border rounded px-3 py-2 mb-4 text-sm">
-                    {% for pkg in product.packagings.all %}<option value="{{ pkg.id }}">{{ pkg.weight_kg }} кг</option>{% endfor %}
+                <select name="packaging_id" class="w-full fc-input border rounded px-3 py-2 mb-4 text-sm">
+                    {% for pkg in product.packagings.all %}<option value="{{ pkg.id }}">{{ pkg.weight_kg }} кг{% if pkg.description %} — {{ pkg.description }}{% endif %}</option>{% endfor %}
                 </select>
                 {% endif %}
 
                 <div class="flex items-center gap-3">
-                    <input name="quantity" type="number" value="1" min="1" class="w-20 border rounded px-3 py-2 text-center text-sm">
-                    <button type="submit" class="flex-1 bg-orange-500 text-white py-2 rounded font-medium hover:bg-orange-600">В корзину</button>
+                    <input name="quantity" type="number" value="1" min="1" class="w-20 fc-input border rounded px-3 py-2 text-center text-sm">
+                    <button type="submit" class="flex-1 bg-orange-500 text-white py-2 fc-btn rounded font-medium hover:bg-orange-600">В корзину</button>
                 </div>
             </form>
 
@@ -51,7 +63,7 @@
             {% endif %}
 
             {% for ttk in product.ttk_files.all %}
-            <a href="{{ ttk.pdf.url }}" class="inline-block mt-3 text-orange-500 text-sm hover:underline" download>📄 {{ ttk.title }}</a>
+            <a href="{{ ttk.pdf.url }}" class="inline-flex items-center gap-1.5 mt-3 text-orange-500 text-sm hover:underline" download>{% include "partials/_icon.html" with name="arrow-down-tray" class="w-4 h-4" %}{{ ttk.title }}</a>
             {% endfor %}
         </div>
     </div>

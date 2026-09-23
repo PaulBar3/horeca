@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from catalog.models import Packaging, Product
+from catalog.models import Packaging, Product, ProductImage
 from orders.models import Order
 
 
@@ -205,6 +205,46 @@ class TestCart:
         block = response.content[i:i + 300]
         assert b'hx-swap-oob="true"' in block
         assert b"20,00" in block
+
+    def test_cart_row_shows_image(self, client, product, packaging):
+        ProductImage.objects.create(product=product, image="products/cart.jpg", is_main=True)
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        assert b"/media/products/cart.jpg" in response.content
+
+    def test_cart_row_without_image(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        assert b"/media/products" not in response.content
+
+    def test_cart_row_shows_packaging_description(self, client, product, packaging):
+        packaging.description = "≈50 шт в горсти"
+        packaging.save()
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        assert "(≈50 шт в горсти)".encode() in response.content
+
+    def test_cart_row_without_packaging_description(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.get("/orders/")
+        assert b"1,00 \xd0\xba\xd0\xb3</p>" in response.content
+        assert "≈".encode() not in response.content
 
 
 @pytest.mark.django_db

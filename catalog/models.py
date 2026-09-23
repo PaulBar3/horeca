@@ -81,7 +81,9 @@ class Product(models.Model):
         return self.name
 
     def get_main_image(self):
-        return self.images.filter(is_main=True).first() or self.images.first()  # pylint: disable=no-member
+        # list() uses prefetch cache when images were prefetched
+        images = list(self.images.all())  # pylint: disable=no-member
+        return next((img for img in images if img.is_main), images[0] if images else None)
 
 
 class ProductImage(models.Model):
@@ -113,6 +115,7 @@ class Packaging(models.Model):
         verbose_name="Товар",
     )
     weight_kg = models.DecimalField("Вес (кг)", max_digits=6, decimal_places=2)
+    description = models.CharField("Описание", max_length=200, blank=True)
     price_on_request = models.BooleanField("Цена по запросу", default=True)
 
     class Meta:

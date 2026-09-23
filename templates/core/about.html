@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}О компании — FOODCORE{% endblock %}
 {% block content %}
-<section class="bg-gray-900 text-white py-12">
+<section class="bg-gradient-to-r from-gray-900 via-gray-900 to-orange-600 text-white py-12">
     <div class="max-w-7xl mx-auto px-4">
         <h1 class="text-3xl font-bold">О компании</h1>
         <p class="text-gray-400 mt-2">Более 18 лет опыта в производстве полуфабрикатов для профессиональной кухни</p>
@@ -16,24 +16,27 @@
             <p class="text-gray-600 mb-3">Наша миссия — стать надёжным партнёром для шеф-поваров, предоставляя продукцию стабильного качества с точным весом порции.</p>
             <p class="text-gray-600">Мы используем собственное сырьё и контролируем каждый этап производства, гарантируя безопасность и высокий вкус наших продуктов.</p>
         </div>
-        <div class="bg-gray-100 rounded-lg aspect-video"></div>
+        <div class="rounded-lg aspect-video bg-gradient-to-br from-gray-900 to-gray-700 flex flex-col items-center justify-center text-white">
+            <span class="text-4xl font-bold text-orange-500">с 2006</span>
+            <span class="text-sm text-gray-400 mt-1">год основания</span>
+        </div>
     </div>
 
     <div>
         <h2 class="text-xl font-bold mb-4 text-center">Сертификаты и качество</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="border rounded-lg p-5 text-center">
-                <div class="text-3xl mb-3">🛡️</div>
+                <div class="mb-3 flex justify-center">{% include "partials/_icon.html" with name="shield-check" class="w-8 h-8 text-orange-500" %}</div>
                 <h3 class="font-bold mb-1">HACCP</h3>
                 <p class="text-sm text-gray-500">Система управления безопасностью пищевых продуктов</p>
             </div>
             <div class="border rounded-lg p-5 text-center">
-                <div class="text-3xl mb-3">🏅</div>
+                <div class="mb-3 flex justify-center">{% include "partials/_icon.html" with name="check-badge" class="w-8 h-8 text-orange-500" %}</div>
                 <h3 class="font-bold mb-1">ISO 22000</h3>
                 <p class="text-sm text-gray-500">Международный стандарт безопасности пищевой продукции</p>
             </div>
             <div class="border rounded-lg p-5 text-center">
-                <div class="text-3xl mb-3">✅</div>
+                <div class="mb-3 flex justify-center">{% include "partials/_icon.html" with name="check-circle" class="w-8 h-8 text-orange-500" %}</div>
                 <h3 class="font-bold mb-1">Собственное сырьё</h3>
                 <p class="text-sm text-gray-500">Контроль качества на каждом этапе производства</p>
             </div>
@@ -65,7 +68,7 @@
     <div class="bg-orange-500 text-white rounded-lg p-8 text-center">
         <h2 class="text-xl font-bold mb-2">Розничным сетям</h2>
         <p class="mb-4 text-white/90">Предлагаем сотрудничество розничным сетям на специальных условиях</p>
-        <a href="{% url 'core:contacts' %}" class="inline-block bg-white text-orange-500 px-6 py-2 rounded font-medium hover:bg-gray-100">Связаться</a>
+        <a href="{% url 'core:contacts' %}" class="inline-block bg-white text-orange-500 px-6 py-2 fc-btn rounded font-medium hover:bg-gray-100">Связаться</a>
     </div>
 </div>
 {% endblock %}

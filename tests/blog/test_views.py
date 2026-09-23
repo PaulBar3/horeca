@@ -15,6 +15,16 @@ class TestArticleListView:
         response = client.get("/blog/recipes/?category=recipe")
         assert response.status_code == 200
 
+    def test_card_shows_cover(self, client, article):
+        article.image = "blog/cover.jpg"
+        article.save()
+        response = client.get("/blog/recipes/")
+        assert b"/media/blog/cover.jpg" in response.content
+
+    def test_card_without_cover(self, client, article):
+        response = client.get("/blog/recipes/")
+        assert b"/media/blog/" not in response.content
+
 
 @pytest.mark.django_db
 class TestBlogListView:

@@ -53,5 +53,6 @@ class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
 
 @admin.register(Packaging)
 class PackagingAdmin(admin.ModelAdmin):
-    list_display = ["product", "weight_kg", "price_on_request"]
+    list_display = ["product", "weight_kg", "description", "price_on_request"]
     list_filter = ["price_on_request"]
+    search_fields = ["product__name", "description"]
