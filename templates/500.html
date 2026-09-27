@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Ошибка сервера — FOODCORE{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto px-4 py-16 text-center">
+    <p class="text-7xl font-bold text-orange-500 leading-none">500</p>
+    <h1 class="text-2xl font-bold mt-4 mb-3">Что-то пошло не так</h1>
+    <p class="text-gray-500 mb-6">Произошла внутренняя ошибка сервера. Попробуйте обновить страницу через несколько секунд.</p>
+    <div class="flex justify-center gap-3">
+        <a href="{% url 'core:home' %}" class="fc-btn bg-orange-500 text-white px-5 py-2 rounded font-medium hover:bg-orange-600">На главную</a>
+        <a href="{% url 'catalog:product_list' %}" class="fc-btn border px-5 py-2 rounded hover:bg-gray-50">В каталог</a>
+    </div>
+</div>
+{% endblock %}
