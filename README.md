@@ -34,7 +34,8 @@ uv run python manage.py loaddata fixtures/db.json
 
 ## Деплой
 
-Прод — [Render](https://foodcore.onrender.com), авто-деплой при пуше в `master`:
+Прод — [Render](https://foodcore.onrender.com), основной домен — **foodcore.by**,
+авто-деплой при пуше в `master`:
 
 ```bash
 git push origin master

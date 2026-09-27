@@ -8,7 +8,7 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: config.settings.production
       - key: DJANGO_ALLOWED_HOSTS
-        value: foodcore.onrender.com
+        value: foodcore.by,www.foodcore.by
       - key: PYTHON_VERSION
         value: "3.12"
       - key: DJANGO_SECRET_KEY
