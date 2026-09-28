@@ -1,0 +1,14 @@
+# Caddy: автоматический HTTPS (Let's Encrypt) для основного домена
+{
+	email {$ACME_EMAIL}
+}
+
+# Тест по IP, пока домен не направлен на сервер (только HTTP)
+:80 {
+	reverse_proxy web:8000
+}
+
+# Основной домен + www: авто-TLS, реверс-прокси на gunicorn
+foodbase.by, www.foodbase.by {
+	reverse_proxy web:8000
+}

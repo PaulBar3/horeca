@@ -6,7 +6,7 @@
 - uv (пакетный менеджер), pytest + pytest-django
 - python-slugify (транслитерация кириллицы → латиница)
 - Tailwind CSS и HTMX — локально (`static/vendor/tailwindcss.js`, `static/vendor/htmx.min.js`)
-- SQLite (dev), PostgreSQL (prod); прод на Render — Python 3.12 (`render.yaml`), локально/dev — 3.14
+- SQLite (dev), PostgreSQL (prod: VPS Docker Compose; Render — обкатка, Python 3.12)
 
 ## Команды
 
@@ -18,6 +18,7 @@ uv run python manage.py migrate
 uv run python manage.py loaddata fixtures/db.json  # данные (каталог, статьи, админы)
 uv run pytest -v                     # тесты (70 шт.)
 uv run pylint --load-plugins pylint_django --django-settings-module=config.settings.development core catalog orders blog --disable=C0114,C0115,C0116,R0903,W0212,C0103,C0301,R0801  # линтер (10/10)
+docker compose up -d --build          # прод на VPS (см. DEPLOY.md)
 ```
 
 ## Структура
@@ -30,6 +31,9 @@ orders/          # Корзина (сессия) + заявки: Order, OrderIte
 blog/            # Статьи/рецепты: Article
 templates/       # Шаблоны (base.html + по приложениям + партиалы)
 tests/           # pytest тесты (catalog/, orders/, blog/, core/)
+fixtures/        # db.json — дамп БД (каталог, статьи, админы)
+DEPLOY.md        # пошаговый деплой на VPS
+Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек VPS (render.yaml — обкатка на Render)
 ```
 
 ## Модели

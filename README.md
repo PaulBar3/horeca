@@ -34,13 +34,23 @@ uv run python manage.py loaddata fixtures/db.json
 
 ## Деплой
 
-Прод — [Render](https://foodcore.onrender.com), основной домен — **foodbase.by**,
-авто-деплой при пуше в `master`:
+Прод — **облачный VPS** (Docker Compose: PostgreSQL + gunicorn + Caddy с
+авто-HTTPS), основной домен — **foodbase.by**. Пошаговая инструкция — в
+[DEPLOY.md](DEPLOY.md):
+
+```bash
+docker compose up -d --build
+```
+
+Render (`foodcore.onrender.com`) остаётся как обкаточная площадка с авто-деплоем
+при пуше в `master`:
 
 ```bash
 git push origin master
 ```
 
 Сборка: `pip install -r requirements.txt` → `build.sh` (`migrate` → `collectstatic` →
-superuser при отсутствии), запуск — gunicorn (`gunicorn.conf.py`), БД PostgreSQL
-из `DATABASE_URL`, статика — whitenoise. Конфигурация — `render.yaml`.
+superuser при отсутствии, пароль из `ADMIN_PASSWORD`), запуск — gunicorn
+(`gunicorn.conf.py`), БД PostgreSQL из `DATABASE_URL`, статика — whitenoise.
+На Render конфигурация — `render.yaml`, на VPS — `docker-compose.yml` +
+`docker/Caddyfile`.
