@@ -73,6 +73,19 @@ docker compose exec web python manage.py loaddata fixtures/db.json
 **Вручную и только один раз** — повторный `loaddata` перезапишет существующие
 данные продакшена.
 
+⚠️ **Фикстура содержит админов со своими хэшами паролей** — после `loaddata`
+пароль суперпользователя сбрасывается в значение из фикстуры (`admin123`).
+Вернуть пароль из `ADMIN_PASSWORD`:
+
+```bash
+docker compose exec -T web python manage.py shell -c "
+from django.contrib.auth import get_user_model
+import os
+u = get_user_model().objects.get(username='admin')
+u.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123'))
+u.save()"
+```
+
 ## 7. Проверка
 
 ```bash
