@@ -42,6 +42,7 @@ services:
       ACME_EMAIL: ${ACME_EMAIL:-admin@foodbase.by}
     volumes:
       - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./googledfb032ac7a653f69.html:/srv/gsc/googledfb032ac7a653f69.html:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:

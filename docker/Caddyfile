@@ -10,9 +10,9 @@
 
 # Основной домен + www: авто-TLS, реверс-прокси на gunicorn
 foodbase.by, www.foodbase.by {
-	# Верификация Google Search Console (файл в корне образа /app)
+	# Верификация Google Search Console (файл смонтирован в /srv/gsc)
 	handle /googledfb032ac7a653f69.html {
-		root * /app
+		root * /srv/gsc
 		file_server
 	}
 
