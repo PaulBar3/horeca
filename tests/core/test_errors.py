@@ -12,7 +12,7 @@ class TestNotFoundPage:
         response = client.get("/net-takoy-stranicy/")
         content = response.content
         assert "Страница не найдена".encode() in content
-        assert b"FOODCORE" in content
+        assert b"FOODBASE" in content
         assert b"/net-takoy-stranicy/" in content
 
     def test_404_has_navigation_links(self, client):
@@ -27,7 +27,7 @@ class TestServerErrorPage:
         # Django renders 500.html without context (template.render())
         body = render_to_string("500.html")
         assert "Что-то пошло не так".encode() in body.encode()
-        assert "FOODCORE" in body
+        assert "FOODBASE" in body
 
     def test_500_has_navigation_links(self):
         body = render_to_string("500.html")

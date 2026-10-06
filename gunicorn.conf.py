@@ -1,5 +1,5 @@
 """
-Gunicorn configuration for FOODCORE.
+Gunicorn configuration for FOODBASE.
 """
 
 import os

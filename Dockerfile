@@ -1,4 +1,4 @@
-# FOODCORE — образ приложения для VPS (docker-compose)
+# FOODBASE — образ приложения для VPS (docker-compose)
 FROM python:3.14-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

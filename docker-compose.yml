@@ -1,4 +1,4 @@
-# FOODCORE на VPS: PostgreSQL + Django (gunicorn) + Caddy (HTTPS)
+# FOODBASE на VPS: PostgreSQL + Django (gunicorn) + Caddy (HTTPS)
 # Все секреты — в .env (см. .env.example). Запуск: docker compose up -d --build
 services:
   db:

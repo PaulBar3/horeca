@@ -1,5 +1,5 @@
 """
-Security middleware for FOODCORE.
+Security middleware for FOODBASE.
 """
 
 import time

@@ -169,8 +169,8 @@
   "model": "blog.article",
   "pk": 2,
   "fields": {
-    "title": "Новая линия полуфабрикатов FOODCORE",
-    "slug": "foodcore-novaya-liniya-2",
+    "title": "Новая линия полуфабрикатов FOODBASE",
+    "slug": "foodbase-novaya-liniya-2",
     "category": "news",
     "excerpt": "Новая линия полуфабрикатов.",
     "content": "Мы запустили новую линию для производства полуфабрикатов.",

@@ -1,7 +1,7 @@
 [project]
 name = "horeca"
 version = "0.1.0"
-description = "FOODCORE — каталог полуфабрикатов для HoReCa"
+description = "FOODBASE — каталог полуфабрикатов для HoReCa"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

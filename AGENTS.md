@@ -1,4 +1,4 @@
-# FOODCORE — AGENTS.md
+# FOODBASE — AGENTS.md
 
 ## Стек
 

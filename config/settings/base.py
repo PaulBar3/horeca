@@ -1,5 +1,5 @@
 """
-Django settings for FOODCORE project — base configuration.
+Django settings for FOODBASE project — base configuration.
 """
 
 import os
