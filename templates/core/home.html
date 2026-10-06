@@ -2,116 +2,218 @@
 {% block title %}FOODBASE — Основа вашего меню{% endblock %}
 {% block content %}
 
-<section class="bg-gray-900 text-white py-20 relative overflow-hidden">
-    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-orange-500/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
-    <div class="absolute -bottom-40 right-0 w-[28rem] h-[28rem] rounded-full bg-orange-600/10 blur-3xl pointer-events-none" aria-hidden="true"></div>
-    <div class="max-w-7xl mx-auto px-4 relative">
-        <h1 class="text-4xl font-bold mb-4">Ваша основа для <span class="text-orange-500">шедевра</span></h1>
-        <p class="text-gray-300 mb-6 max-w-xl">Полуфабрикаты для профессиональной кухни. Стабильный вес, экономия времени, гарантия качества.</p>
-        <div class="flex gap-4">
-            <a href="{% url 'catalog:product_list' %}" class="bg-orange-500 hover:bg-orange-600 px-6 py-2 fc-btn rounded font-medium">В каталог</a>
-            <a href="{% url 'core:b2b' %}" class="fc-btn border border-white/30 px-6 py-2 rounded hover:bg-white/10">Для профессионалов</a>
+{# ===== ГЕРОЙ ===== #}
+<section class="bg-gray-900 text-white relative overflow-hidden">
+    {# ФОТО (стейк справа): заменить div на <img src="..." class="absolute inset-y-0 right-0 w-1/2 h-full object-cover"> #}
+    <div class="absolute inset-y-0 right-0 hidden md:block w-1/2 bg-gradient-to-bl from-orange-800/50 via-red-900/25 to-transparent" aria-hidden="true"></div>
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
+        <p class="text-xs tracking-[0.25em] uppercase text-gray-400 mb-5">Полуфабрикаты для HoReCa</p>
+        <h1 class="text-4xl md:text-5xl font-bold uppercase leading-tight">
+            Ваша основа<br><span class="text-orange-500">для шедевра</span>
+        </h1>
+        <p class="text-gray-300 mt-5 max-w-xl">
+            Подготовленные мясные полуфабрикаты для ресторанов, кафе и магазинов.
+            Порционируем, маринуем и упаковываем — вам остаётся приготовить.
+        </p>
+        <div class="flex flex-wrap gap-4 mt-7">
+            <a href="{% url 'catalog:product_list' %}" class="bg-orange-500 hover:bg-orange-600 px-6 py-3 fc-btn rounded font-medium uppercase text-sm tracking-wide">Смотреть каталог &rarr;</a>
+            <a href="{% url 'core:contacts' %}" class="fc-btn border border-white/40 px-6 py-3 rounded hover:bg-white/10 uppercase text-sm tracking-wide">Получить прайс</a>
+        </div>
+        <div class="flex flex-wrap gap-x-8 gap-y-3 mt-10 text-sm text-gray-300">
+            <span class="flex items-center gap-2">{% include "partials/_icon.html" with name="fire" class="w-5 h-5 text-orange-500 shrink-0" %} Профессиональные маринады RAPS</span>
+            <span class="flex items-center gap-2">{% include "partials/_icon.html" with name="cube" class="w-5 h-5 text-orange-500 shrink-0" %} Фасовка до 3 кг</span>
+            <span class="flex items-center gap-2">{% include "partials/_icon.html" with name="truck" class="w-5 h-5 text-orange-500 shrink-0" %} Доставка</span>
+            <span class="flex items-center gap-2">{% include "partials/_icon.html" with name="banknotes" class="w-5 h-5 text-orange-500 shrink-0" %} Отсрочка платежа</span>
         </div>
     </div>
 </section>
 
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="scale" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Стабильный вес</h3>
-                <p class="text-xs text-gray-500">Точный калибр порции</p>
-            </div>
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="clock" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Экономия времени</h3>
-                <p class="text-xs text-gray-500">Готово к использованию</p>
-            </div>
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="shield-check" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Гарантия качества</h3>
-                <p class="text-xs text-gray-500">HACCP, ISO 22000</p>
-            </div>
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="cog-6-tooth" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Собственное сырьё</h3>
-                <p class="text-xs text-gray-500">Контроль этапов</p>
-            </div>
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="truck" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Логистика 24/7</h3>
-                <p class="text-xs text-gray-500">Доставка вовремя</p>
-            </div>
-            <div>
-                <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">{% include "partials/_icon.html" with name="fire" class="w-7 h-7 text-orange-500" %}</div>
-                <h3 class="font-medium text-sm">Для HoReCa</h3>
-                <p class="text-xs text-gray-500">Специальные условия</p>
-            </div>
+{# ===== 6 ПРЕИМУЩЕСТВ ===== #}
+<section class="bg-white border-b">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6">
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="scale" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Стабильная порция</h3>
+            <p class="text-xs text-gray-500 mt-1">Одинаковый вес и выход</p>
+        </div>
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="clock" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Готово к приготовлению</h3>
+            <p class="text-xs text-gray-500 mt-1">Экономия времени кухни</p>
+        </div>
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="fire" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Профессиональные маринады RAPS</h3>
+            <p class="text-xs text-gray-500 mt-1">Широкая линейка вкусов</p>
+        </div>
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="cube" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Удобная фасовка</h3>
+            <p class="text-xs text-gray-500 mt-1">До 3 кг в одной упаковке</p>
+        </div>
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="truck" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Доставка</h3>
+            <p class="text-xs text-gray-500 mt-1">Для HoReCa и магазинов</p>
+        </div>
+        <div class="py-8">
+            {% include "partials/_icon.html" with name="banknotes" class="w-8 h-8 text-gray-900 mb-3" %}
+            <h3 class="font-semibold text-sm">Отсрочка платежа</h3>
+            <p class="text-xs text-gray-500 mt-1">Удобные условия для постоянных клиентов</p>
         </div>
     </div>
 </section>
 
-{% if featured_products %}
-<section class="py-12">
+{# ===== ЧТО МЫ ГОТОВИМ (категории) ===== #}
+<section class="py-14">
     <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">Рекомендуем</h2>
-            <a href="{% url 'catalog:product_list' %}" class="text-orange-500 text-sm hover:underline">Все продукты &rarr;</a>
+        <div class="flex items-end justify-between gap-4 mb-2">
+            <h2 class="text-2xl md:text-3xl font-bold">Что мы готовим <span class="text-orange-500">для вас</span></h2>
+            <a href="{% url 'catalog:product_list' %}" class="text-orange-500 text-sm font-medium hover:underline uppercase shrink-0">Весь каталог &rarr;</a>
         </div>
+        <p class="text-gray-500 mb-7 max-w-2xl text-sm">Мясо уже разделано, порционировано, замариновано и упаковано. Вы выбираете продукт и вкус — мы готовим его к работе на вашей кухне.</p>
+        {% if categories %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {% for c in categories %}
+            <a href="{% url 'catalog:product_list' %}?category={{ c.slug }}" class="group relative rounded-lg overflow-hidden min-h-[230px] flex flex-col justify-end p-5 text-white bg-gray-900">
+                {% if c.image %}
+                <img src="{{ c.image.url }}" alt="{{ c.name }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" onerror="this.remove()">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" aria-hidden="true"></div>
+                {% else %}
+                {# ФОТО категории: загрузишь в админке (Категории → Изображение) — появится автоматически #}
+                <div class="absolute inset-0 bg-gradient-to-br from-gray-800 via-gray-900 to-orange-950 group-hover:from-orange-900/70 transition-colors duration-300" aria-hidden="true"></div>
+                {% endif %}
+                <div class="relative">
+                    <h3 class="font-bold uppercase tracking-wide">{{ c.name }}</h3>
+                    <p class="text-sm text-gray-300 mt-1">{{ c.description }}</p>
+                    <span class="inline-flex items-center gap-1 text-orange-400 text-sm mt-3 group-hover:gap-2 transition-all">Смотреть &rarr;</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{# ===== ЧАЩЕ ВСЕГО ЗАКАЗЫВАЮТ ===== #}
+<section class="pb-14">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-end justify-between gap-4 mb-2">
+            <h2 class="text-2xl md:text-3xl font-bold">Часто всего <span class="text-orange-500">заказывают</span></h2>
+            <a href="{% url 'catalog:product_list' %}" class="text-orange-500 text-sm font-medium hover:underline uppercase shrink-0">Весь каталог &rarr;</a>
+        </div>
+        <p class="text-gray-500 mb-7 max-w-2xl text-sm">Популярные позиции, которые выбирают наши партнёры для меню и витрин.</p>
+        {% if featured_products %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {% for p in featured_products %}
-            {% with product=p show_badge=False show_description=False %}
-            {% include "catalog/_product_card.html" %}
-            {% endwith %}
+            <a href="{{ p.get_absolute_url }}" class="group border rounded-lg overflow-hidden bg-white hover:shadow-md transition">
+                <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
+                    {% with img=p.get_main_image %}
+                    {% if img %}
+                    <img src="{{ img.image.url }}" alt="{{ img.alt|default:p.name }}" class="w-full h-full object-cover group-hover:scale-105 transition" loading="lazy" onerror="this.remove()">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-gray-300">{% include "partials/_icon.html" with name="cube" class="w-10 h-10" %}</div>
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-sm">{{ p.name }}</h3>
+                    {% if p.composition %}<p class="text-xs text-gray-500 mt-1.5">{{ p.composition }}</p>{% endif %}
+                    {% if p.max_weight %}<p class="text-xs text-gray-500">Фасовка: до {{ p.max_weight|floatformat:"-2" }} кг</p>{% endif %}
+                    <span class="inline-flex items-center gap-1 text-orange-500 text-sm mt-3 group-hover:gap-2 transition-all">Подробнее &rarr;</span>
+                </div>
+            </a>
             {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{# ===== МАРИНАДЫ RAPS ===== #}
+<section class="bg-gray-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+            <p class="text-xs tracking-[0.25em] uppercase text-gray-400">Профессиональные маринады RAPS</p>
+            <h2 class="text-3xl md:text-4xl font-bold mt-4">Один продукт —<br><span class="text-orange-500">разные вкусы</span></h2>
+            <p class="text-gray-300 mt-4 max-w-xl">Мы работаем с профессиональными насыпными маринадами RAPS. Один и тот же продукт мы можем приготовить в разных вкусовых сочетаниях — под концепцию вашего заведения и блюда в меню.</p>
+            <a href="{% url 'core:contacts' %}" class="inline-block mt-6 bg-orange-500 hover:bg-orange-600 px-6 py-3 fc-btn rounded font-medium uppercase text-sm tracking-wide">Посмотреть все маринады &rarr;</a>
+        </div>
+        {# ФОТО банок соусов: заменить заглушки на <img> по мере появления #}
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-x-4 gap-y-5">
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-red-700 to-red-950 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Красное песто</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-yellow-800 to-stone-950 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Гриль</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Лимонный перец</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-amber-100 to-amber-300 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Базис</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-red-600 to-green-900 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Томаты и травы</p>
+            </div>
+            <div class="text-center">
+                <div class="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full bg-gradient-to-br from-lime-200 to-emerald-800 border border-white/10"></div>
+                <p class="text-xs text-gray-300 mt-2">Чеснок с травами</p>
+            </div>
         </div>
     </div>
 </section>
-{% endif %}
 
-{% if new_products %}
-<section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold mb-6">Новинки</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {% for p in new_products %}
-            {% with product=p show_badge=True show_description=False %}
-            {% include "catalog/_product_card.html" %}
-            {% endwith %}
-            {% endfor %}
+{# ===== УДОБНО ХРАНИТЬ ===== #}
+<section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
+        {# ФОТО упаковки: заменить блок на <img> #}
+        <div class="rounded-lg overflow-hidden bg-gray-900 aspect-[4/3] relative flex items-center justify-center">
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-950" aria-hidden="true"></div>
+            <div class="relative text-center px-6">
+                <p class="text-2xl font-bold"><span class="text-orange-500">FOOD</span>BASE</p>
+                <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest">Основа вашего меню</p>
+                <p class="text-sm text-white/80 mt-5 border-t border-white/10 pt-4">Шашлык из свиной шеи</p>
+                <p class="text-xs text-gray-500">Маринад: Красное песто · масса нетто 3 кг</p>
+            </div>
         </div>
-    </div>
-</section>
-{% endif %}
-
-{% if reviews %}
-<section class="py-12">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold mb-6">Отзывы шеф-поваров</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {% for r in reviews %}
-            <div class="border rounded-lg p-5">
-                <p class="text-sm text-gray-600 mb-4">«{{ r.text }}»</p>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold shrink-0">{{ r.author_name|first }}</div>
+        <div>
+            <h2 class="text-3xl md:text-4xl font-bold leading-tight">Удобно хранить.<br>Удобно <span class="text-orange-500">работать</span>.</h2>
+            <div class="grid sm:grid-cols-2 gap-6 mt-8">
+                <div class="flex gap-3">
+                    {% include "partials/_icon.html" with name="cube" class="w-7 h-7 text-orange-500 shrink-0" %}
                     <div>
-                        <p class="font-medium text-sm">{{ r.author_name }}</p>
-                        <p class="text-xs text-gray-400">{{ r.author_position }}{% if r.author_company %}, {{ r.author_company }}{% endif %}</p>
+                        <h3 class="font-semibold text-sm">До 3 кг в упаковке</h3>
+                        <p class="text-xs text-gray-500 mt-1">Оптимальный объём для профессиональной кухни.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    {% include "partials/_icon.html" with name="check-circle" class="w-7 h-7 text-orange-500 shrink-0" %}
+                    <div>
+                        <h3 class="font-semibold text-sm">Готово к приготовлению</h3>
+                        <p class="text-xs text-gray-500 mt-1">Продукт уже подготовлен и замаринован.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    {% include "partials/_icon.html" with name="clipboard-document-check" class="w-7 h-7 text-orange-500 shrink-0" %}
+                    <div>
+                        <h3 class="font-semibold text-sm">Маркировка</h3>
+                        <p class="text-xs text-gray-500 mt-1">На каждой упаковке информация о продукте.</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    {% include "partials/_icon.html" with name="shield-check" class="w-7 h-7 text-orange-500 shrink-0" %}
+                    <div>
+                        <h3 class="font-semibold text-sm">Вакуумная упаковка с газовой средой</h3>
+                        <p class="text-xs text-gray-500 mt-1">Сохраняет свежесть и качество продукта.</p>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
-    </div>
-</section>
-{% endif %}
-
-<section class="py-12 bg-orange-500 text-white text-center">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold mb-3">Стать партнёром</h2>
-        <p class="mb-4 text-white/90">Получите пробную партию и оцените качество</p>
-        <a href="{% url 'core:b2b' %}" class="inline-block bg-white text-orange-500 px-6 py-2 fc-btn rounded font-medium hover:bg-gray-100">Запросить</a>
     </div>
 </section>
 

@@ -1,23 +1,25 @@
 import logging
 
 from django.contrib import messages
+from django.db.models import Max
 from django.shortcuts import render
 
-from catalog.models import Product
-from .models import Review
+from catalog.models import Category, Product
 
 logger = logging.getLogger(__name__)
 
 
 def home(request):
-    featured_products = Product.objects.filter(is_featured=True).prefetch_related("images")[:4]
-    new_products = Product.objects.filter(is_new=True).prefetch_related("images")[:4]
-    reviews = Review.objects.filter(is_active=True)[:3]
+    featured_products = (
+        Product.objects.filter(is_featured=True)
+        .prefetch_related("images")
+        .annotate(max_weight=Max("packagings__weight_kg"))[:4]
+    )
+    categories = Category.objects.all()
 
     return render(request, "core/home.html", {
         "featured_products": featured_products,
-        "new_products": new_products,
-        "reviews": reviews,
+        "categories": categories,
     })
 
 
