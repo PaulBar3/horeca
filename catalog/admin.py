@@ -1,4 +1,5 @@
 from django.contrib import admin
+from slugify import slugify
 
 from config.mixins import SlugifyAdminMixin
 from .models import Category, Product, ProductImage, Packaging, TTKFile
@@ -43,7 +44,6 @@ class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
     list_editable = ["is_featured", "is_new"]
 
     def save_model(self, request, obj, form, change):
-        from slugify import slugify
         obj.slug = slugify(obj.name)
         super().save_model(request, obj, form, change)
 

@@ -15,8 +15,9 @@ uv run python manage.py runserver    # запуск сервера
 uv run python manage.py createsuperuser  # создать админа
 uv run python manage.py makemigrations  # миграции
 uv run python manage.py migrate
-uv run python manage.py loaddata fixtures/db.json  # данные (каталог, статьи, админы)
-uv run pytest -v                     # тесты (70 шт.)
+uv run python manage.py loaddata fixtures/db.json  # данные (каталог, статьи, админы); НЕ на проде — сбрасывает пароль админа
+uv run python manage.py seed_demo    # демо-данные главной: 4 категории и 4 товара (идемпотентно)
+uv run pytest -v                     # тесты (78 шт.)
 uv run pylint --load-plugins pylint_django --django-settings-module=config.settings.development core catalog orders blog --disable=C0114,C0115,C0116,R0903,W0212,C0103,C0301,R0801  # линтер (10/10)
 docker compose up -d --build          # прод на VPS (см. DEPLOY.md)
 ```
@@ -85,7 +86,7 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 
 - Фикстуры в `tests/conftest.py` (client, category, product, packaging, article)
 - Начальные данные проекта — `fixtures/db.json` (восстановление: `manage.py loaddata fixtures/db.json`; выгрузка: `manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.permission -e sessions -e admin.logentry -o fixtures/db.json`)
-- 70 тестов: catalog (23), orders (26), blog (9), core (12)
+- 78 тестов: catalog (23), orders (26), blog (9), core (20)
 - Страницы ошибок: `templates/404.html` (с контекстом `request_path`) и `templates/500.html` (Django рендерит без контекста — в нём нельзя использовать `{{ }}`-переменные), тесты `tests/core/test_errors.py`
 
 ## Запуск

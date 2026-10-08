@@ -43,3 +43,6 @@ Thumbs.db
 # Dev tools
 .kilo/
 .opencode/
+
+# Референсы макета (не коммитить)
+photo_*.jpg
