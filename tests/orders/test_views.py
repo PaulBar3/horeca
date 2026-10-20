@@ -3,7 +3,7 @@ from decimal import Decimal
 import pytest
 
 from catalog.models import Packaging, Product, ProductImage
-from orders.models import Order
+from orders.models import Order, OrderItem
 
 
 @pytest.mark.django_db
@@ -322,6 +322,34 @@ class TestOrder:
     def test_order_success_page(self, client):
         response = client.get("/orders/success/")
         assert response.status_code == 200
+
+
+@pytest.mark.django_db
+class TestOrderItemProtect:
+    def test_cannot_delete_ordered_product(self, client, product, packaging):
+        # Create an order that references the product
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "phone": "+375291234567",
+            "email": "test@test.by",
+        })
+        assert OrderItem.objects.filter(product=product).exists()
+
+        # Deleting the product must be blocked to preserve order history
+        from django.db.models import ProtectedError
+        with pytest.raises(ProtectedError):
+            product.delete()
+
+    def test_can_delete_unordered_product(self, db, category):
+        # A product with no order history can still be deleted
+        p = Product.objects.create(name="Удаляемый", slug="udalyaemyi", category=category)
+        p.delete()
+        assert not Product.objects.filter(slug="udalyaemyi").exists()
 
     def test_field_error_shown_once_not_duplicated(self, client, product, packaging):
         # Regression: a summary block used to list every error AND each field

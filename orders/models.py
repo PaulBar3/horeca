@@ -39,7 +39,7 @@ class OrderItem(models.Model):
     )
     product = models.ForeignKey(
         "catalog.Product",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name="Товар",
     )
     packaging = models.ForeignKey(

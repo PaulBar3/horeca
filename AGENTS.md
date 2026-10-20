@@ -26,7 +26,7 @@ docker compose up -d --build          # прод на VPS (см. DEPLOY.md)
 
 ```
 config/          # settings (base/dev/prod), urls, wsgi, mixins
-core/            # Главная, about, b2b, contacts, sitemap, Lead, Review
+core/            # Главная, about, b2b, contacts, sitemap, Lead
 catalog/         # Category, Product, ProductImage, Packaging, TTKFile
 orders/          # Корзина (сессия) + заявки: Order, OrderItem, OrderForm
 blog/            # Статьи/рецепты: Article
@@ -44,7 +44,6 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 - `Order` → `OrderItem` (1:many) → `Product`, `Packaging`
 - `Article` — блог
 - `Lead` — заявки с форм contacts/b2b (`source`: contacts/b2b), валидация в `core/forms.py`, PRG + `messages`
-- `Review` — отзывы шеф-поваров (управление через admin)
 
 ## Корзина
 
