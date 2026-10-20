@@ -1,8 +1,7 @@
 # Деплой на облачный VPS (Docker Compose)
 
 Прод-окружение: VPS + Docker Compose (PostgreSQL + gunicorn + Caddy с автоматическим
-HTTPS). Домен — **foodbase.by**. Render (`foodcore.onrender.com`) остаётся как
-обкаточная площадка с авто-деплоем при пуше в `master`.
+HTTPS). Домен — **foodbase.by**.
 
 ## 1. Требования
 

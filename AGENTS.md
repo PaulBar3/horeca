@@ -6,7 +6,7 @@
 - uv (пакетный менеджер), pytest + pytest-django
 - python-slugify (транслитерация кириллицы → латиница)
 - Tailwind CSS и HTMX — локально (`static/vendor/tailwindcss.js`, `static/vendor/htmx.min.js`)
-- SQLite (dev), PostgreSQL (prod: VPS Docker Compose; Render — обкатка, Python 3.12)
+- SQLite (dev), PostgreSQL (prod: VPS Docker Compose)
 
 ## Команды
 
@@ -34,7 +34,7 @@ templates/       # Шаблоны (base.html + по приложениям + п�
 tests/           # pytest тесты (catalog/, orders/, blog/, core/)
 fixtures/        # db.json — дамп БД (каталог, статьи, админы)
 DEPLOY.md        # пошаговый деплой на VPS
-Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек VPS (render.yaml — обкатка на Render)
+Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек VPS
 ```
 
 ## Модели

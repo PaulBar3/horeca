@@ -25,9 +25,6 @@ ALLOWED_HOSTS = [
     for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
     if h.strip()
 ]
-render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if render_host and render_host not in ALLOWED_HOSTS:
-    ALLOWED_HOSTS.append(render_host)
 
 CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host]
 

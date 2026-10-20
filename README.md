@@ -6,7 +6,7 @@
 
 - Python 3.14, Django 5.2 LTS
 - uv, pytest, HTMX, Tailwind CSS (локально, без CDN)
-- SQLite (dev), PostgreSQL (prod, Render — Python 3.12)
+- SQLite (dev), PostgreSQL (prod — VPS Docker Compose)
 
 ## Запуск
 
@@ -42,15 +42,9 @@ uv run python manage.py loaddata fixtures/db.json
 docker compose up -d --build
 ```
 
-Render (`foodcore.onrender.com`) остаётся как обкаточная площадка с авто-деплоем
-при пуше в `master`:
-
-```bash
-git push origin master
-```
+Обновления: `git pull origin master` → `docker compose up -d --build`.
 
 Сборка: `pip install -r requirements.txt` → `build.sh` (`migrate` → `collectstatic` →
 superuser при отсутствии, пароль из `ADMIN_PASSWORD`), запуск — gunicorn
 (`gunicorn.conf.py`), БД PostgreSQL из `DATABASE_URL`, статика — whitenoise.
-На Render конфигурация — `render.yaml`, на VPS — `docker-compose.yml` +
-`docker/Caddyfile`.
+Конфигурация — `docker-compose.yml` + `docker/Caddyfile`.
