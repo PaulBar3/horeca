@@ -41,20 +41,36 @@ def _parse_quantity(value, default=1):
 
 
 def _resolve_cart_items(cart_data):
+    if not cart_data:
+        return []
+
+    product_ids = []
+    packaging_ids = []
+    for product_id, item_data in cart_data.items():
+        product_ids.append(product_id)
+        pid = item_data.get("packaging_id")
+        if pid:
+            packaging_ids.append(pid)
+
+    products = {
+        p.pk: p
+        for p in Product.objects.filter(pk__in=product_ids).prefetch_related(
+            "packagings"
+        )
+    }
+    packagings = {p.pk: p for p in Packaging.objects.filter(pk__in=packaging_ids)}
+
     items = []
     for product_id, item_data in cart_data.items():
-        try:
-            product = Product.objects.get(pk=product_id)
-        except Product.DoesNotExist:
+        product = products.get(int(product_id)) if str(product_id).isdigit() else None
+        if product is None:
             continue
+
         packaging = None
-        if item_data.get("packaging_id"):
-            try:
-                packaging = Packaging.objects.get(
-                    pk=item_data["packaging_id"]
-                )
-            except Packaging.DoesNotExist:
-                pass
+        packaging_id = item_data.get("packaging_id")
+        if packaging_id and int(packaging_id) in packagings:
+            packaging = packagings[int(packaging_id)]
+
         quantity = item_data.get("quantity", 1)
         items.append({
             "product": product,

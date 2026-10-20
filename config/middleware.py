@@ -5,7 +5,7 @@ Security middleware for FOODBASE.
 import time
 from collections import defaultdict
 
-from django.http import JsonResponse
+from django.http import HttpResponse
 from django.conf import settings
 
 
@@ -68,9 +68,12 @@ class RateLimitMiddleware:
                     store[key] = store.get(key, 0) + 1
 
                     if store[key] > max_requests:
-                        return JsonResponse(
-                            {"error": "Слишком много запросов. Попробуйте позже."},
+                        # HTML (not JSON): these are browser form posts / HTMX
+                        # swaps on an HTML site — a JSON body would be jarring.
+                        return HttpResponse(
+                            "Слишком много запросов. Попробуйте позже.",
                             status=429,
+                            content_type="text/plain; charset=utf-8",
                         )
                     break
 

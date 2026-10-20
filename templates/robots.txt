@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /admin/
+Disallow: /backend-admin/
 Disallow: /orders/
 
 Sitemap: https://foodbase.by/sitemap.xml

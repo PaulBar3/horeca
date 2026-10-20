@@ -322,3 +322,49 @@ class TestOrder:
     def test_order_success_page(self, client):
         response = client.get("/orders/success/")
         assert response.status_code == 200
+
+    def test_field_error_shown_once_not_duplicated(self, client, product, packaging):
+        # Regression: a summary block used to list every error AND each field
+        # listed it again, so the same message appeared twice.
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "phone": "+375291234567",
+            "email": "not-an-email",
+        })
+        assert response.status_code == 200
+        form = response.context["form"]
+        error_text = form.errors["email"][0].encode()
+        assert response.content.count(error_text) == 1
+
+
+@pytest.mark.django_db
+class TestResolveCartItems:
+    def test_no_n_plus_one_for_multiple_items(self, category):
+        from orders.views import _resolve_cart_items
+
+        p1 = Product.objects.create(name="A", slug="a", category=category)
+        p2 = Product.objects.create(name="B", slug="b", category=category)
+        Packaging.objects.create(product=p1, weight_kg=1.0)
+        Packaging.objects.create(product=p2, weight_kg=2.0)
+        Packaging.objects.create(product=p2, weight_kg=5.0)
+
+        cart = {
+            str(p1.pk): {"packaging_id": p1.packagings.first().pk, "quantity": 1},
+            str(p2.pk): {"packaging_id": p2.packagings.first().pk, "quantity": 2},
+        }
+
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+
+        with CaptureQueriesContext(connection) as ctx:
+            items = _resolve_cart_items(cart)
+
+        assert len(items) == 2
+        # 2 products + 2 packagings fetched in bulk; no per-item queries.
+        # Allow a small constant overhead but far below a per-item N+1.
+        assert len(ctx.captured_queries) <= 4

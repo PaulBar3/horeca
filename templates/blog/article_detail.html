@@ -9,7 +9,7 @@
     </nav>
     <span class="text-xs text-orange-500">{{ article.get_category_display }}</span>
     <h1 class="text-2xl font-bold mt-1 mb-4">{{ article.title }}</h1>
-    {% if article.image %}<div class="aspect-video bg-gray-100 rounded-lg mb-6"></div>{% endif %}
+    {% if article.image %}<img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full aspect-video object-cover rounded-lg mb-6" loading="lazy" onerror="this.remove()">{% endif %}
     <div class="prose text-gray-700">{{ article.content|linebreaksbr }}</div>
     <div class="mt-8"><a href="{% url 'blog:article_list' %}" class="text-orange-500 text-sm hover:underline">&larr; Ко всем статьям</a></div>
 </article>

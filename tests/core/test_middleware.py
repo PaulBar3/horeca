@@ -32,7 +32,8 @@ class TestRateLimit:
             mw(_make_request())
         response = mw(_make_request())
         assert response.status_code == 429
-        assert response["Content-Type"].startswith("application/json")
+        # Plain text body for browser form posts (not JSON)
+        assert response["Content-Type"].startswith("text/plain")
 
     @override_settings(RATE_LIMITS={"/orders/create/": (2, 60)}, RATE_LIMIT_MAX_KEYS=5000)
     def test_spoofed_xff_first_value_bypasses_nothing(self):

@@ -15,9 +15,11 @@ def blog_list(request):
 def article_list(request):
     articles = Article.objects.filter(is_published=True)
 
+    valid_categories = {value for value, _ in Article.CATEGORY_CHOICES}
     category = request.GET.get("category", "recipe")
-    if category:
-        articles = articles.filter(category=category)
+    if category not in valid_categories:
+        category = "recipe"
+    articles = articles.filter(category=category)
 
     paginator = Paginator(articles, 9)
     page_number = request.GET.get("page")
