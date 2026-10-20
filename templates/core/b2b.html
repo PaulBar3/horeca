@@ -70,15 +70,30 @@
 
     <div class="bg-gray-50 rounded-lg p-6">
         <h2 class="font-bold mb-4">Запросить пробную партию</h2>
-        <form method="post" class="space-y-3">
+        <form method="post" action="{% url 'core:trial_request' %}" class="space-y-3">
             {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input name="contact_name" required placeholder="ФИО *" class="fc-input border rounded px-3 py-2 text-sm">
-                <input name="company" required placeholder="Компания *" class="fc-input border rounded px-3 py-2 text-sm">
-                <input name="phone" required placeholder="Телефон *" class="fc-input border rounded px-3 py-2 text-sm">
-                <input name="email" required placeholder="Email *" class="fc-input border rounded px-3 py-2 text-sm">
+                <div>
+                    {{ form.contact_name }}
+                    {% if form.contact_name.errors %}<p class="text-red-500 text-xs mt-1">{{ form.contact_name.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.company }}
+                    {% if form.company.errors %}<p class="text-red-500 text-xs mt-1">{{ form.company.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}<p class="text-red-500 text-xs mt-1">{{ form.phone.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.email }}
+                    {% if form.email.errors %}<p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+                </div>
             </div>
-            <textarea name="comment" rows="2" placeholder="Комментарий" class="w-full fc-input border rounded px-3 py-2 text-sm"></textarea>
+            <div>
+                {{ form.message }}
+                {% if form.message.errors %}<p class="text-red-500 text-xs mt-1">{{ form.message.errors.0 }}</p>{% endif %}
+            </div>
             <button type="submit" class="bg-orange-500 text-white px-6 py-2 fc-btn rounded font-medium hover:bg-orange-600">Отправить запрос</button>
         </form>
     </div>

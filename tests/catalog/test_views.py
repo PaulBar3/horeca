@@ -1,6 +1,6 @@
 import pytest
 
-from catalog.models import Product, ProductImage
+from catalog.models import Packaging, Product, ProductImage
 
 
 @pytest.mark.django_db
@@ -46,6 +46,31 @@ class TestProductListView:
         response = client.get("/catalog/")
         assert b"/media/products" not in response.content
         assert b"aspect-square" in response.content
+
+    def test_filter_by_packaging(self, client, product, packaging):
+        other = Product.objects.create(
+            name="Другой товар", slug="drugoy", category=product.category,
+            description="Описание",
+        )
+        Packaging.objects.create(product=other, weight_kg=5.0)
+        response = client.get("/catalog/?packaging=1.00")
+        content = response.content
+        assert "Котлеты".encode() in content
+        assert "Другой товар".encode() not in content
+
+    def test_filter_by_packaging_accepts_comma(self, client, product, packaging):
+        response = client.get("/catalog/?packaging=1,00")
+        assert "Котлеты".encode() in response.content
+
+    def test_filter_by_packaging_invalid_value(self, client, product, packaging):
+        response = client.get("/catalog/?packaging=abc")
+        assert response.status_code == 200
+        assert "Котлеты".encode() in response.content
+
+    def test_packaging_option_value_not_localized(self, client, product, packaging):
+        response = client.get("/catalog/")
+        assert b'value="1.00"' in response.content
+        assert b'value="1,00"' not in response.content
 
 
 @pytest.mark.django_db

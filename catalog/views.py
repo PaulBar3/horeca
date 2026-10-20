@@ -29,7 +29,9 @@ def _apply_filters(queryset, params):
         queryset = queryset.filter(cooking_method=cooking)
     if packaging:
         try:
-            queryset = queryset.filter(packagings__weight_kg=Decimal(packaging))
+            queryset = queryset.filter(
+                packagings__weight_kg=Decimal(packaging.replace(",", "."))
+            )
         except InvalidOperation:
             pass
 

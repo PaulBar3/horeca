@@ -22,10 +22,22 @@
             <h2 class="font-bold mb-4">Напишите нам</h2>
             <form method="post" class="space-y-3">
                 {% csrf_token %}
-                <input name="contact_name" required placeholder="ФИО *" class="w-full fc-input border rounded px-3 py-2 text-sm">
-                <input name="email" required placeholder="Email *" class="w-full fc-input border rounded px-3 py-2 text-sm">
-                <input name="phone" placeholder="Телефон" class="w-full fc-input border rounded px-3 py-2 text-sm">
-                <textarea name="message" rows="3" required placeholder="Сообщение *" class="w-full fc-input border rounded px-3 py-2 text-sm"></textarea>
+                <div>
+                    {{ form.contact_name }}
+                    {% if form.contact_name.errors %}<p class="text-red-500 text-xs mt-1">{{ form.contact_name.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.email }}
+                    {% if form.email.errors %}<p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}<p class="text-red-500 text-xs mt-1">{{ form.phone.errors.0 }}</p>{% endif %}
+                </div>
+                <div>
+                    {{ form.message }}
+                    {% if form.message.errors %}<p class="text-red-500 text-xs mt-1">{{ form.message.errors.0 }}</p>{% endif %}
+                </div>
                 <button type="submit" class="w-full bg-orange-500 text-white py-2 fc-btn rounded font-medium hover:bg-orange-600">Отправить</button>
             </form>
         </div>

@@ -1,6 +1,8 @@
 import logging
 
 from django.conf import settings
+from django.contrib import messages
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
@@ -206,10 +208,11 @@ def order_create(request):
     if not cart_data:
         return redirect("orders:cart")
 
+    items = _resolve_cart_items(cart_data)
+    cart_sum, has_on_request = _price_totals(items)
+
     form = OrderForm(request.POST)
     if not form.is_valid():
-        items = _resolve_cart_items(cart_data)
-        cart_sum, has_on_request = _price_totals(items)
         return render(request, "orders/cart.html", {
             "cart_items": items,
             "cart_sum": cart_sum,
@@ -217,17 +220,24 @@ def order_create(request):
             "form": form,
         })
 
-    order = form.save()
-
-    for item in _resolve_cart_items(cart_data):
-        OrderItem.objects.create(
-            order=order,
-            product=item["product"],
-            packaging=item["packaging"],
-            quantity=item["quantity"],
+    if not items:
+        messages.warning(
+            request,
+            "Товары из вашей корзины больше не доступны. Обновите корзину.",
         )
+        _save_cart(request.session, {})
+        return redirect("orders:cart")
 
-    _save_cart(request.session, {})
+    with transaction.atomic():
+        order = form.save()
+        for item in items:
+            OrderItem.objects.create(
+                order=order,
+                product=item["product"],
+                packaging=item["packaging"],
+                quantity=item["quantity"],
+            )
+        _save_cart(request.session, {})
 
     logger.info(
         "New order #%d created",

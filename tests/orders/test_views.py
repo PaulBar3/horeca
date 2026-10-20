@@ -265,6 +265,60 @@ class TestOrder:
         assert response.status_code == 302
         assert Order.objects.count() == 1
 
+    def test_create_order_saves_items(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 2,
+        })
+        client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "company": "Тест ООО",
+            "phone": "+375291234567",
+            "email": "test@test.by",
+        })
+        order = Order.objects.get()
+        assert order.items.count() == 1
+        item = order.items.get()
+        assert item.product == product
+        assert item.packaging == packaging
+        assert item.quantity == 2
+        assert client.session.get("foodcore_cart") == {}
+
+    def test_create_order_with_deleted_products(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        Product.objects.all().delete()
+        response = client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "company": "Тест ООО",
+            "phone": "+375291234567",
+            "email": "test@test.by",
+        })
+        assert response.status_code == 302
+        assert response.url.endswith("/orders/")
+        assert Order.objects.count() == 0
+        assert client.session.get("foodcore_cart") == {}
+
+    def test_create_order_invalid_form_keeps_cart(self, client, product, packaging):
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "phone": "+375291234567",
+            "email": "not-an-email",
+        })
+        assert response.status_code == 200
+        assert Order.objects.count() == 0
+        assert response.context["form"].errors.get("email")
+        assert client.session.get("foodcore_cart")
+
     def test_order_success_page(self, client):
         response = client.get("/orders/success/")
         assert response.status_code == 200

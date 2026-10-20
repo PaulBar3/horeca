@@ -17,7 +17,7 @@
 
                 <select name="packaging" class="w-full fc-input border rounded px-3 py-2 text-sm">
                     <option value="">Любая фасовка</option>
-                    {% for pkg in packaging_options %}<option value="{{ pkg }}" {% if request.GET.packaging == pkg|stringformat:"s" %}selected{% endif %}>{{ pkg }} кг</option>{% endfor %}
+                    {% for pkg in packaging_options %}<option value="{{ pkg|stringformat:'s' }}" {% if request.GET.packaging == pkg|stringformat:"s" %}selected{% endif %}>{{ pkg }} кг</option>{% endfor %}
                 </select>
 
                 <select name="meat_type" class="w-full fc-input border rounded px-3 py-2 text-sm">

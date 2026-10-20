@@ -17,7 +17,7 @@ uv run python manage.py makemigrations  # миграции
 uv run python manage.py migrate
 uv run python manage.py loaddata fixtures/db.json  # данные (каталог, статьи, админы); НЕ на проде — сбрасывает пароль админа
 uv run python manage.py seed_demo    # демо-данные главной: 4 категории и 4 товара (идемпотентно)
-uv run pytest -v                     # тесты (78 шт.)
+uv run pytest -v                     # тесты (95 шт.)
 uv run pylint --load-plugins pylint_django --django-settings-module=config.settings.development core catalog orders blog --disable=C0114,C0115,C0116,R0903,W0212,C0103,C0301,R0801  # линтер (10/10)
 docker compose up -d --build          # прод на VPS (см. DEPLOY.md)
 ```
@@ -26,7 +26,7 @@ docker compose up -d --build          # прод на VPS (см. DEPLOY.md)
 
 ```
 config/          # settings (base/dev/prod), urls, wsgi, mixins
-core/            # Главная, about, b2b, contacts, sitemap, Review
+core/            # Главная, about, b2b, contacts, sitemap, Lead, Review
 catalog/         # Category, Product, ProductImage, Packaging, TTKFile
 orders/          # Корзина (сессия) + заявки: Order, OrderItem, OrderForm
 blog/            # Статьи/рецепты: Article
@@ -43,6 +43,7 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 - `Packaging` — `weight_kg`, `description` (необязательная подпись, напр. «≈50 шт в горсти»), `price_on_request`; видна в селекте карточки и в строке корзины
 - `Order` → `OrderItem` (1:many) → `Product`, `Packaging`
 - `Article` — блог
+- `Lead` — заявки с форм contacts/b2b (`source`: contacts/b2b), валидация в `core/forms.py`, PRG + `messages`
 - `Review` — отзывы шеф-поваров (управление через admin)
 
 ## Корзина
@@ -64,20 +65,21 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 
 ## CBV vs FBV
 
-- `about`, `b2b` — `TemplateView.as_view()` прямо в urls.py
-- `contacts`, `trial_request` — FBV (обрабатывают POST)
-- `home`, `product_list`, `product_detail`, `cart_view` — FBVщopen
+- `about` — `TemplateView.as_view()` прямо в urls.py
+- `contacts`, `b2b` (и `/b2b/trial-request/` — та же view) — FBV (валидация формы, PRG)
+- `home`, `product_list`, `product_detail`, `cart_view` — FBV
 
 ## Forms
 
 - `orders/forms.py` — `OrderForm` (ModelForm) с виджетами и валидацией
+- `core/forms.py` — `ContactForm`, `TrialRequestForm` (на `Lead`) с виджетами
 - Валидация фильтров в `catalog/views.py` — `_apply_filters()` с проверкой допустимых значений
 
 ## Шаблоны
 
 - UI-система: шрифт Inter (`static/fonts/`), стили `.fc-input`/`.fc-btn` (`static/css/main.css`)
 - Иконки: SVG-спрайт `static/icons.svg` (heroicons) + партиал `{% include "partials/_icon.html" with name="..." class="..." %}` (эмодзи заменены)
-- Партиалы: `catalog/_product_card.html`, `blog/_article_card.html`, `orders/_cart_item.html`, `orders/_cart_sum.html`, `partials/_icon.html`, `partials/_pagination.html`
+- Партиалы: `catalog/_product_card.html`, `blog/_article_card.html`, `orders/_cart_item.html`, `orders/_cart_sum.html`, `partials/_icon.html`, `partials/_pagination.html`, `partials/_messages.html` (вывод `messages` в base.html)
 - Пагинация: тег `{% paginate page_obj %}` (`core/templatetags/pagination.py`) — окно ±2, сохраняет query-параметры (каталог, рецепты)
 - Картинки: `Product.get_main_image()` (дружит с prefetch), `prefetch_related("images")` в списках и на главной; везде `onerror="this.remove()"` → серый плейсхолдер
 - Детальная страница товара: несколько фото → сетка `grid-cols-2`; карточки/корзина — главное фото с hover-zoom
@@ -86,7 +88,7 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 
 - Фикстуры в `tests/conftest.py` (client, category, product, packaging, article)
 - Начальные данные проекта — `fixtures/db.json` (восстановление: `manage.py loaddata fixtures/db.json`; выгрузка: `manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.permission -e sessions -e admin.logentry -o fixtures/db.json`)
-- 78 тестов: catalog (23), orders (26), blog (9), core (20)
+- 95 тестов: catalog (27), orders (29), blog (9), core (30)
 - Страницы ошибок: `templates/404.html` (с контекстом `request_path`) и `templates/500.html` (Django рендерит без контекста — в нём нельзя использовать `{{ }}`-переменные), тесты `tests/core/test_errors.py`
 
 ## Запуск
@@ -95,5 +97,5 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 uv run python manage.py createsuperuser
 uv run python manage.py runserver
 # http://127.0.0.1:8000 — главная
-# http://127.0.0.1:8000/admin/ — админка
+# http://127.0.0.1:8000/backend-admin/ — админка
 ```

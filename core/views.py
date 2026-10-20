@@ -2,9 +2,11 @@ import logging
 
 from django.contrib import messages
 from django.db.models import Max
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from catalog.models import Category, Product
+
+from .forms import ContactForm, TrialRequestForm
 
 logger = logging.getLogger(__name__)
 
@@ -24,20 +26,32 @@ def home(request):
 
 
 def contacts(request):
+    form = ContactForm(request.POST or None)
     if request.method == "POST":
-        logger.info("Contact form submitted from %s", request.META.get("REMOTE_ADDR"))
-        messages.success(
-            request,
-            "Сообщение отправлено. Мы ответим вам в ближайшее время.",
-        )
-    return render(request, "core/contacts.html")
+        if form.is_valid():
+            lead = form.save(commit=False)
+            lead.source = "contacts"
+            lead.save()
+            logger.info("New lead #%d from contacts", lead.pk)
+            messages.success(
+                request,
+                "Сообщение отправлено. Мы ответим вам в ближайшее время.",
+            )
+            return redirect("core:contacts")
+    return render(request, "core/contacts.html", {"form": form})
 
 
-def trial_request(request):
+def b2b(request):
+    form = TrialRequestForm(request.POST or None)
     if request.method == "POST":
-        logger.info("Trial request submitted from %s", request.META.get("REMOTE_ADDR"))
-        messages.success(
-            request,
-            "Ваш запрос отправлен. Мы свяжемся с вами в ближайшее время.",
-        )
-    return render(request, "core/b2b.html")
+        if form.is_valid():
+            lead = form.save(commit=False)
+            lead.source = "b2b"
+            lead.save()
+            logger.info("New lead #%d from trial request", lead.pk)
+            messages.success(
+                request,
+                "Ваш запрос отправлен. Мы свяжемся с вами в ближайшее время.",
+            )
+            return redirect("core:b2b")
+    return render(request, "core/b2b.html", {"form": form})
