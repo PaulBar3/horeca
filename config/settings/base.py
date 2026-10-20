@@ -106,3 +106,6 @@ RATE_LIMITS = {
     "/orders/add/": (30, 60),
     "/orders/": (60, 60),
 }
+
+# Cap on tracked (ip, bucket) keys per path — bounds in-memory growth
+RATE_LIMIT_MAX_KEYS = 5000
