@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}FOODBASE — Основа вашего меню{% endblock %}
 {% block content %}
 
 {# ===== ГЕРОЙ ===== #}
 <section class="bg-gray-900 text-white relative overflow-hidden">
-    {# ФОТО (стейк справа): заменить div на <img src="..." class="absolute inset-y-0 right-0 w-1/2 h-full object-cover"> #}
-    <div class="absolute inset-y-0 right-0 hidden md:block w-1/2 bg-gradient-to-bl from-orange-800/50 via-red-900/25 to-transparent" aria-hidden="true"></div>
+    <img src="{% static 'img/hero-chicken.jpg' %}" alt="" aria-hidden="true"
+         class="hidden md:block absolute inset-y-0 right-0 w-1/2 h-full object-cover object-center">
+    <div class="hidden md:block absolute inset-y-0 right-0 w-1/2 bg-gradient-to-r from-gray-900 via-gray-900/45 to-transparent" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
         <p class="text-xs tracking-[0.25em] uppercase text-gray-400 mb-5">Полуфабрикаты для HoReCa</p>
         <h1 class="text-4xl md:text-5xl font-bold uppercase leading-tight">
