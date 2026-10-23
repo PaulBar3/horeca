@@ -27,7 +27,6 @@ def article_list(request):
 
     return render(request, "blog/article_list.html", {
         "articles": page_obj,
-        "is_paginated": page_obj.has_other_pages(),
         "page_obj": page_obj,
     })
 

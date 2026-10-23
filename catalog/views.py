@@ -55,7 +55,6 @@ def product_list(request):
             Packaging.objects.values_list("weight_kg", flat=True)
             .distinct().order_by("weight_kg")
         ),
-        "is_paginated": page_obj.has_other_pages(),
         "page_obj": page_obj,
         "has_filters": bool(q or cat or meat or cook or pkg),
     })

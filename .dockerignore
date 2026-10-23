@@ -14,3 +14,9 @@ staticfiles/
 htmlcov
 .kilo
 .opencode
+.pytest_cache
+tests/
+fixtures/
+*.md
+googledfb*.html
+photo_*.jpg

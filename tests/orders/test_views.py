@@ -22,16 +22,6 @@ class TestCart:
         assert response.status_code == 200
         assert client.session.get("foodcore_cart", {}).get(str(product.pk))
 
-    def test_cart_count(self, client, product, packaging):
-        client.post("/orders/add/", {
-            "product_id": product.pk,
-            "packaging_id": packaging.pk,
-            "quantity": 3,
-        })
-        response = client.get("/orders/count/")
-        assert response.status_code == 200
-        assert b"3" in response.content
-
     def test_remove_from_cart(self, client, product, packaging):
         client.post("/orders/add/", {
             "product_id": product.pk,

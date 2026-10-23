@@ -1,5 +1,4 @@
 from django.contrib import admin
-from slugify import slugify
 
 from config.mixins import SlugifyAdminMixin
 from .models import Category, Product, ProductImage, Packaging, TTKFile
@@ -42,10 +41,6 @@ class ProductAdmin(SlugifyAdminMixin, admin.ModelAdmin):
     search_fields = ["name", "article", "description"]
     inlines = [ProductImageInline, PackagingInline, TTKFileInline]
     list_editable = ["is_featured", "is_new"]
-
-    def save_model(self, request, obj, form, change):
-        obj.slug = slugify(obj.name)
-        super().save_model(request, obj, form, change)
 
     class Media:
         js = ("admin/js/slugify.js",)

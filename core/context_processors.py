@@ -1,10 +1,7 @@
-from django.conf import settings
+from orders.cart import cart_total, get_cart
 
 
 def site_context(request):
-    cart = request.session.get(settings.CART_SESSION_KEY, {})
     return {
-        "site_name": "FOODBASE",
-        "site_tagline": "Основа вашего меню",
-        "cart_count": sum(item["quantity"] for item in cart.values()),
+        "cart_count": cart_total(get_cart(request.session)),
     }

@@ -24,7 +24,7 @@ uv run pytest -v
 
 ## Данные
 
-Начальные данные проекта (категории, товары, фасовки, статьи, заказы, админы) — в `fixtures/db.json`. Восстановление на пустой БД (после `migrate`) или обновление существующей:
+Начальные данные проекта (категории, товары, фасовки, статьи, админ) — в `fixtures/db.json`. Восстановление на пустой БД (после `migrate`) или обновление существующей:
 
 ```bash
 uv run python manage.py loaddata fixtures/db.json
@@ -44,7 +44,6 @@ docker compose up -d --build
 
 Обновления: `git pull origin master` → `docker compose up -d --build`.
 
-Сборка: `pip install -r requirements.txt` → `build.sh` (`migrate` → `collectstatic` →
-superuser при отсутствии, пароль из `ADMIN_PASSWORD`), запуск — gunicorn
+Сборка: зависимости из `uv.lock` (`uv sync --frozen --no-dev`) → `build.sh` (`migrate` → `collectstatic` → superuser при отсутствии, пароль из `ADMIN_PASSWORD`), запуск — gunicorn
 (`gunicorn.conf.py`), БД PostgreSQL из `DATABASE_URL`, статика — whitenoise.
 Конфигурация — `docker-compose.yml` + `docker/Caddyfile`.

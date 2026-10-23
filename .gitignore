@@ -5,6 +5,7 @@ __pycache__/
 dist/
 build/
 .eggs/
+node_modules/
 
 # Virtual environments
 .venv/
@@ -13,6 +14,8 @@ venv/
 # Django
 *.sqlite3
 *.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
 staticfiles/
 media/
 
@@ -39,6 +42,10 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Backups (см. DEPLOY.md §9)
+backup_*.sql
+media_*.tar.gz
 
 # Dev tools
 .kilo/

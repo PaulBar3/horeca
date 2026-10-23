@@ -1,13 +1,7 @@
 import pytest
-from django.test import Client
 
 from blog.models import Article
 from catalog.models import Category, Packaging, Product
-
-
-@pytest.fixture
-def client():
-    return Client()
 
 
 @pytest.fixture

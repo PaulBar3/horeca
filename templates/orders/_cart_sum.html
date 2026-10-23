@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
         <span class="font-medium text-sm text-gray-500">Итого</span>
         {% if cart_sum %}
-        <span class="text-lg font-bold text-orange-500">{{ cart_sum }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></span>
+        <span class="text-lg font-bold text-orange-500">{{ cart_sum }} {% include "partials/_byn.html" %}</span>
         {% else %}
         <span class="text-sm text-gray-400">Цена по запросу</span>
         {% endif %}

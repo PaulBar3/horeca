@@ -18,7 +18,7 @@
         <h3 class="font-medium text-sm">{{ product.name }}</h3>
         {% if product.price %}
         {% load static %}
-        <p class="text-sm font-bold text-orange-500 mt-1">{{ product.price }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></p>
+        <p class="text-sm font-bold text-orange-500 mt-1">{{ product.price }} {% include "partials/_byn.html" %}</p>
         {% endif %}
         {% if show_description and product.description %}
         <p class="text-xs text-gray-400 mt-1">{{ product.description|truncatewords:10 }}</p>

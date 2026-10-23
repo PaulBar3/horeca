@@ -7,7 +7,7 @@
         <a href="{% url 'catalog:product_detail' item.product.slug %}" class="font-medium text-sm hover:text-orange-500 truncate block">{{ item.product.name }}</a>
         <p class="text-xs text-gray-400">{{ item.packaging.weight_kg }} кг{% if item.packaging.description %} ({{ item.packaging.description }}){% endif %}</p>
         {% if item.unit_price %}
-        <p class="text-sm font-bold text-orange-500">{{ item.unit_price }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></p>
+        <p class="text-sm font-bold text-orange-500">{{ item.unit_price }} {% include "partials/_byn.html" %}</p>
         {% else %}
         <p class="text-xs text-gray-400">Цена по запросу</p>
         {% endif %}
@@ -19,7 +19,7 @@
     </div>
     <div class="w-24 text-right shrink-0">
         {% if item.line_total %}
-        <p class="text-sm font-bold text-orange-500">{{ item.line_total }} <img src="{% static 'vendor/byn-symbol.svg' %}" alt="Br" style="height: 1em; display: inline-block; vertical-align: middle;"></p>
+        <p class="text-sm font-bold text-orange-500">{{ item.line_total }} {% include "partials/_byn.html" %}</p>
         {% else %}
         <p class="text-xs text-gray-400">—</p>
         {% endif %}

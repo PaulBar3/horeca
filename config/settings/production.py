@@ -28,21 +28,41 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host]
 
+# --- DATABASE_URL: required in production, no silent SQLite fallback ---
+_DB_URL = os.environ.get("DATABASE_URL")
+if not _DB_URL:
+    raise RuntimeError(
+        "DATABASE_URL environment variable is required in production. "
+        "Example: postgresql://user:password@host:5432/dbname"
+    )
+
 DATABASES = {
-    "default": dj_database_url.config(
-        default="sqlite:///db.sqlite3",
+    "default": dj_database_url.parse(
+        _DB_URL,
         conn_max_age=600,
     )
 }
 
+# Explicit order: WhiteNoise right after SecurityMiddleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    *MIDDLEWARE[1:],  # noqa: F405
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "config.middleware.RateLimitMiddleware",
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    },
+}
 
 # --- Security headers ---
 SECURE_SSL_REDIRECT = os.environ.get("SECURE_SSL_REDIRECT", "True").lower() == "true"
@@ -57,14 +77,6 @@ CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False  # Must be False for HTMX to read CSRF token
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-
-X_FRAME_OPTIONS = "DENY"
-
-# --- Session ---
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7  # 1 week
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_SAMESITE = "Lax"
 
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"

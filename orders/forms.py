@@ -2,6 +2,8 @@ from django import forms
 
 from .models import Order
 
+INPUT_CLASS = "w-full fc-input border rounded px-3 py-2 text-sm"
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -10,23 +12,23 @@ class OrderForm(forms.ModelForm):
         widgets = {
             "contact_name": forms.TextInput(attrs={
                 "placeholder": "ФИО *",
-                "class": "border rounded px-3 py-2 text-sm",
+                "class": INPUT_CLASS,
             }),
             "company": forms.TextInput(attrs={
                 "placeholder": "Компания",
-                "class": "border rounded px-3 py-2 text-sm",
+                "class": INPUT_CLASS,
             }),
             "phone": forms.TextInput(attrs={
                 "placeholder": "Телефон *",
-                "class": "border rounded px-3 py-2 text-sm",
+                "class": INPUT_CLASS,
             }),
             "email": forms.EmailInput(attrs={
                 "placeholder": "Email *",
-                "class": "border rounded px-3 py-2 text-sm",
+                "class": INPUT_CLASS,
             }),
             "comment": forms.Textarea(attrs={
                 "placeholder": "Комментарий",
                 "rows": 2,
-                "class": "w-full border rounded px-3 py-2 text-sm",
+                "class": INPUT_CLASS,
             }),
         }

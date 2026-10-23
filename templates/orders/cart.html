@@ -32,22 +32,24 @@
         {% endif %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <input name="contact_name" value="{{ form.contact_name.value|default:'' }}" required placeholder="ФИО *" class="fc-input border rounded px-3 py-2 text-sm w-full">
+                {{ form.contact_name }}
                 {% if form.contact_name.errors %}<p class="text-red-500 text-xs mt-1">{{ form.contact_name.errors.0 }}</p>{% endif %}
             </div>
             <div>
-                <input name="company" value="{{ form.company.value|default:'' }}" placeholder="Компания" class="fc-input border rounded px-3 py-2 text-sm w-full">
+                {{ form.company }}
+                {% if form.company.errors %}<p class="text-red-500 text-xs mt-1">{{ form.company.errors.0 }}</p>{% endif %}
             </div>
             <div>
-                <input name="phone" value="{{ form.phone.value|default:'' }}" required placeholder="Телефон *" class="fc-input border rounded px-3 py-2 text-sm w-full">
+                {{ form.phone }}
                 {% if form.phone.errors %}<p class="text-red-500 text-xs mt-1">{{ form.phone.errors.0 }}</p>{% endif %}
             </div>
             <div>
-                <input name="email" value="{{ form.email.value|default:'' }}" required placeholder="Email *" class="fc-input border rounded px-3 py-2 text-sm w-full">
+                {{ form.email }}
                 {% if form.email.errors %}<p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>{% endif %}
             </div>
         </div>
-        <textarea name="comment" rows="2" placeholder="Комментарий" class="w-full fc-input border rounded px-3 py-2 text-sm">{{ form.comment.value|default:'' }}</textarea>
+        {{ form.comment }}
+        {% if form.comment.errors %}<p class="text-red-500 text-xs mt-1">{{ form.comment.errors.0 }}</p>{% endif %}
         <button type="submit" class="bg-orange-500 text-white px-6 py-2 fc-btn rounded font-medium hover:bg-orange-600">Отправить заявку</button>
     </form>
 </div>

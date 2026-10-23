@@ -26,9 +26,6 @@ class Order(models.Model):
     def __str__(self):
         return f"Заявка #{self.pk} от {self.contact_name}"
 
-    def get_total_items(self):
-        return sum(item.quantity for item in self.items.all())
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
