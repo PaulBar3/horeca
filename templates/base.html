@@ -11,7 +11,7 @@
 </head>
 <body class="bg-white text-gray-900 min-h-screen flex flex-col">
 
-    <header class="bg-gray-900 text-white sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-gray-900 via-gray-900 to-orange-950 text-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 flex items-center justify-between h-16 gap-4">
             <a href="{% url 'core:home' %}" class="shrink-0 leading-none">
                 <span class="text-lg font-bold block"><span class="text-orange-500">FOOD</span>BASE</span>
@@ -36,7 +36,7 @@
                 <button onclick="toggleMobileMenu()" class="md:hidden leading-none" aria-label="Меню">{% include "partials/_icon.html" with name="bars-3" class="w-6 h-6" %}</button>
             </div>
         </div>
-        <nav id="mobile-menu" class="hidden md:hidden bg-gray-800 border-t border-gray-700">
+        <nav id="mobile-menu" class="hidden md:hidden bg-gradient-to-r from-gray-900 via-gray-900 to-orange-950 border-t border-gray-700">
             <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
                 <a href="{% url 'catalog:product_list' %}" class="hover:text-orange-500 py-1">Каталог</a>
                 <a href="{% url 'core:b2b' %}" class="hover:text-orange-500 py-1">Для HoReCa</a>
@@ -54,7 +54,7 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 text-sm mt-16">
+    <footer class="bg-gradient-to-r from-gray-900 via-gray-900 to-orange-950 text-gray-400 text-sm mt-16">
         <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between gap-8">
             <div>
                 <span class="font-bold text-white"><span class="text-orange-500">FOOD</span>BASE</span>
