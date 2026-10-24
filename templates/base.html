@@ -54,8 +54,11 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-gradient-to-r from-gray-900 via-gray-900 to-orange-950 text-gray-400 text-sm mt-16">
-        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between gap-8">
+    <footer class="relative overflow-hidden bg-gradient-to-r from-gray-900 via-gray-900 to-orange-950 text-gray-400 text-sm mt-16">
+        <img src="{% static 'img/footer-steak.jpg' %}" alt="" aria-hidden="true"
+             class="hidden md:block absolute inset-y-0 left-0 w-1/2 h-full object-cover object-center">
+        <div class="hidden md:block absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-gray-900/75 via-gray-900/45 to-gray-900" aria-hidden="true"></div>
+        <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between gap-8 relative">
             <div>
                 <span class="font-bold text-white"><span class="text-orange-500">FOOD</span>BASE</span>
                 <p class="mt-1">Основа вашего меню</p>
@@ -75,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="border-t border-gray-800 text-center py-4 text-xs text-gray-600">&copy; 2026 FOODBASE</div>
+        <div class="border-t border-gray-800 text-center py-4 text-xs text-gray-600 relative">&copy; 2026 FOODBASE</div>
     </footer>
 
     <script>
