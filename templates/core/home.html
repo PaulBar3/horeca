@@ -25,7 +25,7 @@
 </section>
 
 {# ===== 6 ПРЕИМУЩЕСТВ ===== #}
-<section class="bg-white border-b">
+<section class="bg-white">
     <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6">
         <div class="group py-8 -mx-3 px-3 rounded-lg bg-gradient-to-b from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/15 group-hover:to-orange-500/5 transition-colors duration-300">
             {% include "partials/_icon.html" with name="scale" class="w-8 h-8 text-gray-900 mb-3 group-hover:text-orange-500 transition-colors" %}
@@ -61,7 +61,7 @@
 </section>
 
 {# ===== ЧТО МЫ ГОТОВИМ (категории) ===== #}
-<section class="py-14">
+<section class="bg-gray-50 py-14">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex items-end justify-between gap-4 mb-2">
             <h2 class="text-2xl md:text-3xl font-bold">Что мы готовим <span class="text-orange-500">для вас</span></h2>
@@ -102,7 +102,7 @@
         {% if featured_products %}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {% for p in featured_products %}
-            <a href="{{ p.get_absolute_url }}" class="group border rounded-lg overflow-hidden bg-white hover:shadow-md transition">
+            <a href="{{ p.get_absolute_url }}" class="group border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
                 <div class="aspect-[4/3] bg-gray-100 overflow-hidden relative">
                     {% with img=p.get_main_image %}
                     {% if img %}
@@ -165,7 +165,7 @@
 </section>
 
 {# ===== УДОБНО ХРАНИТЬ ===== #}
-<section class="py-16">
+<section class="bg-gray-50 py-16">
     <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-10 items-center">
         {# ФОТО упаковки: заменить блок на <img> #}
         <div class="rounded-lg overflow-hidden bg-gray-900 aspect-[4/3] relative flex items-center justify-center">

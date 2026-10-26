@@ -313,6 +313,24 @@ class TestOrder:
         response = client.get("/orders/success/")
         assert response.status_code == 200
 
+    def test_field_error_shown_once_not_duplicated(self, client, product, packaging):
+        # Regression: a summary block used to list every error AND each field
+        # listed it again, so the same message appeared twice.
+        client.post("/orders/add/", {
+            "product_id": product.pk,
+            "packaging_id": packaging.pk,
+            "quantity": 1,
+        })
+        response = client.post("/orders/create/", {
+            "contact_name": "Тест Тестов",
+            "phone": "+375291234567",
+            "email": "not-an-email",
+        })
+        assert response.status_code == 200
+        form = response.context["form"]
+        error_text = form.errors["email"][0].encode()
+        assert response.content.count(error_text) == 1
+
 
 @pytest.mark.django_db
 class TestOrderItemProtect:
@@ -340,24 +358,6 @@ class TestOrderItemProtect:
         p = Product.objects.create(name="Удаляемый", slug="udalyaemyi", category=category)
         p.delete()
         assert not Product.objects.filter(slug="udalyaemyi").exists()
-
-    def test_field_error_shown_once_not_duplicated(self, client, product, packaging):
-        # Regression: a summary block used to list every error AND each field
-        # listed it again, so the same message appeared twice.
-        client.post("/orders/add/", {
-            "product_id": product.pk,
-            "packaging_id": packaging.pk,
-            "quantity": 1,
-        })
-        response = client.post("/orders/create/", {
-            "contact_name": "Тест Тестов",
-            "phone": "+375291234567",
-            "email": "not-an-email",
-        })
-        assert response.status_code == 200
-        form = response.context["form"]
-        error_text = form.errors["email"][0].encode()
-        assert response.content.count(error_text) == 1
 
 
 @pytest.mark.django_db

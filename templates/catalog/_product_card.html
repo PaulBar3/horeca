@@ -1,4 +1,4 @@
-<a href="{% url 'catalog:product_detail' product.slug %}" class="group border rounded-lg overflow-hidden hover:shadow transition">
+<a href="{% url 'catalog:product_detail' product.slug %}" class="group border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
     <div class="aspect-square bg-gray-100 overflow-hidden">
         {% with img=product.get_main_image %}
         {% if img %}
