@@ -71,6 +71,12 @@
 
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f6f1e7;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, .72), rgba(255, 255, 255, .72)),
+        url('../img/herbs-pattern.jpg');
+    background-size: auto, 512px 512px;
+    background-repeat: repeat, repeat;
 }
 
 /* --- Формы: единый фокус --- */
