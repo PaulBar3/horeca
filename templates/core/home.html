@@ -62,7 +62,7 @@
 
 {# ===== ЧТО МЫ ГОТОВИМ (категории) ===== #}
 <section>
-    <div class="max-w-7xl mx-auto bg-gray-50 px-4 py-14">
+    <div class="max-w-7xl mx-auto bg-gray-50 px-4 py-14 rounded-lg">
         <div class="flex items-end justify-between gap-4 mb-2">
             <h2 class="text-2xl md:text-3xl font-bold">Что мы готовим <span class="text-orange-500">для вас</span></h2>
             <a href="{% url 'catalog:product_list' %}" class="text-orange-500 text-sm font-medium hover:underline uppercase shrink-0">Весь каталог &rarr;</a>
@@ -167,9 +167,9 @@
 {# ===== УДОБНО ХРАНИТЬ ===== #}
 <section>
     <div class="max-w-7xl mx-auto lg:py-16">
-        <div class="bg-gray-50 px-4 py-16 lg:py-0 grid lg:grid-cols-2 gap-10 items-center">
+        <div class="bg-gray-50 px-4 py-16 lg:py-0 rounded-lg overflow-hidden grid lg:grid-cols-2 gap-10 items-center">
         {# ФОТО упаковки: заменить блок на <img> #}
-        <div class="rounded-lg overflow-hidden bg-gray-900 aspect-[4/3] relative flex items-center justify-center">
+        <div class="rounded-lg overflow-hidden bg-gray-900 aspect-[4/3] relative flex items-center justify-center lg:-ml-4 lg:rounded-l-none">
             <div class="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-950" aria-hidden="true"></div>
             <div class="relative text-center px-6">
                 <p class="text-2xl font-bold"><span class="text-orange-500">FOOD</span>BASE</p>
