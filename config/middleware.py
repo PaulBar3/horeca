@@ -7,6 +7,36 @@ from collections import defaultdict
 
 from django.http import HttpResponse
 from django.conf import settings
+from django.template.loader import render_to_string
+
+
+class ComingSoonMiddleware:
+    """
+    Serves templates/coming_soon.html for paths listed in COMING_SOON_PATHS
+    while settings.COMING_SOON is enabled. Everything else (admin, cart,
+    static, sitemap) passes through untouched.
+
+    The response is rendered without a request context so no session or
+    database access happens on closed pages.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if settings.COMING_SOON and self._is_closed(request.path):
+            return HttpResponse(render_to_string("coming_soon.html"))
+        return self.get_response(request)
+
+    @staticmethod
+    def _is_closed(path):
+        for prefix in settings.COMING_SOON_PATHS:
+            if prefix == "/":
+                if path == "/":
+                    return True
+            elif path.startswith(prefix):
+                return True
+        return False
 
 
 class RateLimitMiddleware:

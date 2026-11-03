@@ -87,8 +87,16 @@ Dockerfile, docker-compose.yml, docker/Caddyfile, build.sh  # прод-стек 
 
 - Фикстуры в `tests/conftest.py` (category, product, packaging, article)
 - Начальные данные проекта — `fixtures/db.json` (восстановление: `manage.py loaddata fixtures/db.json`; выгрузка: `manage.py dumpdata --natural-foreign --natural-primary -e contenttypes -e auth.permission -e sessions -e admin.logentry -o fixtures/db.json`)
-- 116 тестов: catalog (27), orders (32), blog (13), core (44)
+- 133 теста: catalog (27), orders (32), blog (13), core (61)
 - Страницы ошибок: `templates/404.html` (с контекстом `request_path`) и `templates/500.html` (Django рендерит без контекста — в нём нельзя использовать `{{ }}`-переменные), тесты `tests/core/test_errors.py`
+
+## Coming soon (заглушка сайта)
+
+- `ComingSoonMiddleware` (`config/middleware.py`) отдаёт `templates/coming_soon.html` на путях `COMING_SOON_PATHS` (`/`, `/catalog/`, `/blog/`, `/b2b/`, `/about/`, `/contacts/`), пока `settings.COMING_SOON = True`
+- По умолчанию включён; выкл. в проде — env `COMING_SOON=0` (после запуска сайта)
+- Открыты всегда: админка, `/orders/` (корзина), `/sitemap.xml`, `/robots.txt`, статика/медиа; POST на закрытых путях не создаёт `Lead`
+- Ответ рендерится без request-контекста (без сессии и БД); шаблон — standalone HTML с `noindex`
+- В `tests/conftest.py` autouse-фикстура выключает флаг для существующих тестов; поведение заглушки — `tests/core/test_coming_soon.py`
 
 ## Запуск
 

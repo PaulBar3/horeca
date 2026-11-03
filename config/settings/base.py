@@ -32,6 +32,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "config.middleware.ComingSoonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -109,3 +110,8 @@ RATE_LIMITS = {
 
 # Cap on tracked (ip, bucket) keys per path — bounds in-memory growth
 RATE_LIMIT_MAX_KEYS = 5000
+
+# Coming soon: closed pages serve templates/coming_soon.html.
+# Disable with env COMING_SOON=0 (e.g. after launch).
+COMING_SOON = os.environ.get("COMING_SOON", "1") == "1"
+COMING_SOON_PATHS = ("/", "/catalog/", "/blog/", "/b2b/", "/about/", "/contacts/")

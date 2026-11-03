@@ -4,6 +4,12 @@ from blog.models import Article
 from catalog.models import Category, Packaging, Product
 
 
+@pytest.fixture(autouse=True)
+def coming_soon_off(settings):
+    """Existing tests exercise the real pages; coming-soon tests opt in."""
+    settings.COMING_SOON = False
+
+
 @pytest.fixture
 def category(db):
     return Category.objects.create(name="Мясо", slug="meat")
